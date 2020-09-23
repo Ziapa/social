@@ -8,6 +8,12 @@ ul li {
     padding: 0 15px;
 }
 
+.app-wrapper-content {
+    background-color: green;
+    flex: 80%;
+    margin-top: 15px;
+}
+
 .body {
     display: flex;
 }
