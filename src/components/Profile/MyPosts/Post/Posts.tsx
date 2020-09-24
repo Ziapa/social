@@ -12,18 +12,25 @@ type PostsType = {
 
 export const Posts = (props: PostsType) => {
     return (
-        <div className={`${s.post} ${s.from_me}`}>
-            <header className={s.post__header}>
-                <div className={s.post__header_name}>{props.name}</div>
-                <div className={s.post__header_time}>{props.time}</div>
+        <div className={s.post}>
+            <header className={s.postHeader}>
+                <div className={s.postHeaderName}>
+                    {props.name}
+                </div>
+                <div className={s.postHeaderTime}>
+                    {props.time}
+                </div>
             </header>
-            <div className={s.post__inner}>
+            <div className={s.postInner}>
+                <div>
                 <img src={props.avatar} alt=""/>
-                <div className={s.post__inner_text}>{props.message}
+                </div>
+                <div className={s.postInnerText}>
+                    {props.message}
                 </div>
             </div>
 
-            <div>{props.like} </div>
+            <div className={s.like}>{props.like} </div>
 
 
         </div>
