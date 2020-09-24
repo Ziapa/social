@@ -1,0 +1,24 @@
+.dialogs {
+  display: flex;
+
+  .dialogItem {
+    flex: 20%;
+    margin: 10px;
+    a.active {
+      color: red;
+    }
+  }
+
+  .message {
+    flex: 80%;
+
+
+  .messageItem {
+    padding: 10px;
+    margin: 10px;
+    color: white;
+    background-color: #0B93F6;
+    border-radius: 15px;
+  }
+  }
+}
