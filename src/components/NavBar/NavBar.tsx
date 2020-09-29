@@ -2,7 +2,7 @@ import React from "react";
 import s from "./NavBar.module.scss";
 import { NavLink } from "react-router-dom";
 
-export const NavBar = () => {
+export const NavBar = (props:any) => {
     return (
         <nav className={s.nav}>
             <div className={s.item}><NavLink to="/profile" activeClassName={s.active}>Profile</NavLink></div>
