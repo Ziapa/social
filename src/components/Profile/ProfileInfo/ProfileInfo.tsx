@@ -1,14 +1,14 @@
 import React from "react";
-import s from "./Description.module.scss";
+import s from "./ProfileInfo.module.scss";
 
 
-type Description = {
+type ProfileInfo = {
 
 }
 
-export const Description = (props:Description) => {
+export const ProfileInfo = (props:ProfileInfo) => {
     return (
-        <div className={s.description}>
+        <div className={s.ProfileInfo}>
             <div>
                 ava
             </div>

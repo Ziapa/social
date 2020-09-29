@@ -1,21 +1,22 @@
 ul li {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 .app-wrapper {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
 }
 
 .app-wrapper-content {
-    background-color: green;
-    flex: 80%;
-    margin-top: 15px;
+  color: white;
+  background-color: #363636;
+  flex: 80%;
+  margin-top: 15px;
 }
 
 .body {
-    display: flex;
+  display: flex;
 }
 
 

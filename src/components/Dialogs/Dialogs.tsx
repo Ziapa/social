@@ -3,31 +3,34 @@ import s from "./Dialogs.module.scss";
 import {NavLink} from "react-router-dom";
 
 type DialogType = {
-    name:string
+    name: string
     id: number
 }
 
 const Dialog = (props: DialogType) => {
+
+    let path = `/dialogs/${props.id}`
+    let name = props.name
+
     return (<div>
-        <NavLink activeClassName={s.active} to={`/dialogs/${props.id}`}>
-            {props.name}
-        </NavLink>
+            <NavLink activeClassName={s.active} to={path}>
+                {name}
+            </NavLink>
         </div>
     )
 }
 
 type MessageType = {
-    text:string
+    message: string
 }
 
 const Message = (props: MessageType) => {
     return (
         <div className={s.messageItem}>
-            {props.text}
+            {props.message}
         </div>
     )
 }
-
 
 
 export const Dialogs = () => {
@@ -39,9 +42,9 @@ export const Dialogs = () => {
                 <Dialog name={"Braun"} id={3}/>
             </div>
             <div className={s.message}>
-            <Message text={"HI"}/>
-            <Message text={"How are you?"}/>
-            <Message text={"Yo"}/>
+                <Message message={"HI"}/>
+                <Message message={"How are you?"}/>
+                <Message message={"Yo"}/>
             </div>
         </div>
     )

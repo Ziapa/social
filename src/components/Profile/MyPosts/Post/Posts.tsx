@@ -7,7 +7,6 @@ type PostsType = {
     avatar: string
     message: string
     like: number
-    from: string
 }
 
 export const Posts = (props: PostsType) => {

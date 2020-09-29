@@ -1,28 +1,30 @@
 
-
 .nav {
-    min-height: 800px;
-    background-color: green;
-    flex: 15%;
-    margin-top: 15px;
-    margin-right: 15px;
+  min-height: 800px;
+  background-color: #363636;
+  flex: 15%;
+  margin-top: 15px;
+  margin-right: 15px;
 }
 
 a {
-    color: white;
-    text-decoration: none;
-    font-size: 20px;
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+
+  &.active {
+    color: red;
+  }
 }
 
-a.active {
-    color: red;
-}
 
 .item {
-    margin: 15px 0 0 15px;
+  margin: 15px 0 0 15px;
+
+  &.settings {
+    margin: 75px 0 0 15px;
+  }
 }
 
-.item.settings {
-    margin: 75px 0 0 15px;
-}
+
 
