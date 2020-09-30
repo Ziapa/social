@@ -2,12 +2,12 @@ import React from "react";
 import s from "./Dialogs.module.scss";
 import {NavLink} from "react-router-dom";
 
-type dialogDataType = {
+type DialogDataType = {
     name: string
     id: number
 }
 
-type messageDataType = {
+type MessageDataType = {
     message: string
     id: number
 }
@@ -17,20 +17,20 @@ type MessageType = {
     id: number
 }
 
-type dialogType = {
+type DialogType = {
     name: string
     id: number
 }
 
 type DialogsType = {
-    dialog: Array<dialogType>
+    dialog: Array<DialogType>
     message: Array<MessageType>
-    dialogDataType: Array<dialogDataType>
-    messageDataType: Array<messageDataType>
+    DialogDataType: Array<DialogDataType>
+    MessageDataType: Array<MessageDataType>
 }
 
 
-const Dialog = (props: dialogType) => {
+const Dialog = (props: DialogType) => {
 
     let path = `/dialogs/${props.id}`
     let name = props.name
@@ -52,30 +52,30 @@ const Message = (props: MessageType) => {
     )
 }
 
-let dialogData = [
+let dialogs = [
     {name: "Den", id: 1},
     {name: "SmiT", id: 2},
     {name: "Braun", id: 3}
 ]
 
-let messageData = [
+let messages = [
     {message: "Hi", id: 1},
     {message: "How are you?", id: 2},
     {message: "Yo", id: 3}
 ]
 
 export const Dialogs = (props: DialogsType) => {
+
+    let dialogElement = dialogs.map( dialog => <Dialog name={dialog.name} id={dialog.id}/>)
+    let messageElement = messages.map( message => <Message message={message.message} id={message.id}/>)
+
     return (
         <div className={s.dialogs}>
             <div className={s.dialogItem}>
-                <Dialog name={dialogData[0].name} id={dialogData[0].id}/>
-                <Dialog name={dialogData[1].name} id={dialogData[1].id}/>
-                <Dialog name={dialogData[2].name} id={dialogData[2].id}/>
+                {dialogElement}
             </div>
             <div className={s.message}>
-                <Message message={messageData[0].message} id={messageData[0].id}/>
-                <Message message={messageData[1].message} id={messageData[1].id}/>
-                <Message message={messageData[2].message} id={messageData[2].id}/>
+                {messageElement}
             </div>
         </div>
     )
