@@ -1,15 +1,8 @@
 import React from "react";
 import s from "./Posts.module.scss";
+import { PostType } from "../../../../App";
 
-type PostsType = {
-    name: string
-    time: string
-    avatar: string
-    message: string
-    like: number
-}
-
-export const Posts = (props: PostsType) => {
+export const Posts = (props: PostType) => {
     return (
         <div className={s.post}>
             <header className={s.postHeader}>
