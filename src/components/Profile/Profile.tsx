@@ -6,6 +6,8 @@ import {ProfilePageType} from "../../redux/state";
 
 type DialogsPropsType = {
     profilePage: ProfilePageType
+    addPost: () => void
+    textAddPost: (newText:string) => void
 }
 
 
@@ -14,8 +16,12 @@ export const Profile = (props: DialogsPropsType) => {
         <div className={s.Profile}>
             <img src="https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg"
                  alt=""/>
-            <ProfileInfo />
-           <MyPosts posts={props.profilePage.posts}/>
+            <ProfileInfo/>
+            <MyPosts posts={props.profilePage.posts}
+                     addPost={props.addPost}
+                     message={props.profilePage.changeTextNewPost}
+                     textAddPost={props.textAddPost}
+            />
         </div>
     )
 }
