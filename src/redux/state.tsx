@@ -39,7 +39,13 @@ let state: RootStateType = {
     profilePage: {
         changeTextNewPost: "",
         posts: [
-            {name: "Dart",time: "10:23", avatar: "https://html5css.ru/w3css/img_avatar3.png", message: "bye", like: 25},
+            {
+                name: "Dart",
+                time: "10:23",
+                avatar: "https://html5css.ru/w3css/img_avatar3.png",
+                message: "bye",
+                like: 25
+            },
         ]
     },
     dialogsPage: {
@@ -77,29 +83,20 @@ export const textAddPost = (newText: string) => {
     rerenderEntireTree(state)
 }
 
+
 export const addMessage = () => {
     let newMessage = {
-    message: state.dialogsPage.textAddMessage
+        message: state.dialogsPage.textAddMessage
         , id: 4
     }
-    if (state.dialogsPage.textAddMessage.trim()) {
-        state.dialogsPage.message.push(newMessage)
-        state.dialogsPage.textAddMessage = ""
-        rerenderEntireTree(state)
-    } else {
-        // добавить ошибку
-    }
-
-
+    state.dialogsPage.message.push(newMessage)
+    state.dialogsPage.textAddMessage = ""
+    rerenderEntireTree(state)
 }
 
 export const textAddMessage = (newText: string) => {
-    if (state.dialogsPage.textAddMessage.trim()) {
-        state.dialogsPage.textAddMessage = newText
-        rerenderEntireTree(state)
-    } else {
-        // добавать ошибку
-    }
+    state.dialogsPage.textAddMessage = newText
+    rerenderEntireTree(state)
 
 }
 

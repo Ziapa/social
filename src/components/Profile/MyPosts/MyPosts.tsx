@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useState} from "react";
 import s from "./MyPosts.module.scss";
 import {Posts} from "./Post/Posts";
 import {PostType} from "../../../redux/state";
@@ -12,7 +12,15 @@ type MyPostsPropsType = {
 
 export const MyPosts = (props: MyPostsPropsType) => {
 
-    const addPost = () => props.addPost()
+    let [error, setError] = useState<string | null>(null)
+    const addPost = () => {
+        if (props.message.trim()) {
+            props.addPost()
+        } else {
+            setError("Необходимно ввести текст")
+        }
+
+    }
     const textAddPost = (e: ChangeEvent<HTMLTextAreaElement>) => props.textAddPost(e.currentTarget.value)
 
 
@@ -26,6 +34,7 @@ export const MyPosts = (props: MyPostsPropsType) => {
             <div>
                 <div>
                     <textarea
+                        className={error ? s.error : ""}
                         value={props.message}
                         onChange={textAddPost}
                         placeholder={"AddPost"}
@@ -34,6 +43,7 @@ export const MyPosts = (props: MyPostsPropsType) => {
                 <div>
                     <button onClick={addPost}>add post
                     </button>
+                    {error && <div className={s.errorMessage}>{error}</div>}
                 </div>
             </div>
             {postElement}
