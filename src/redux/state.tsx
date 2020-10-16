@@ -1,4 +1,4 @@
-import {rerenderEntireTree} from "../render";
+let rerenderEntireTree = () => {}
 
 export type PostType = {
     name: string
@@ -75,12 +75,12 @@ export let addPost = () => {
     }
     state.profilePage.posts.push(newPost)
     state.profilePage.changeTextNewPost = ""
-    rerenderEntireTree(state)
+    rerenderEntireTree()
 }
 
 export const textAddPost = (newText: string) => {
     state.profilePage.changeTextNewPost = newText
-    rerenderEntireTree(state)
+    rerenderEntireTree()
 }
 
 
@@ -91,15 +91,18 @@ export const addMessage = () => {
     }
     state.dialogsPage.message.push(newMessage)
     state.dialogsPage.textAddMessage = ""
-    rerenderEntireTree(state)
+    rerenderEntireTree()
 }
 
 export const textAddMessage = (newText: string) => {
     state.dialogsPage.textAddMessage = newText
-    rerenderEntireTree(state)
+    rerenderEntireTree()
 
 }
 
+export const subscribe = (observer: () => void) => {
+    rerenderEntireTree = observer
+}
 
 export default state;
 
