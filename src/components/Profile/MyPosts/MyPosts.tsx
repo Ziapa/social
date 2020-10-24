@@ -1,28 +1,40 @@
 import React, {ChangeEvent, useState} from "react";
 import s from "./MyPosts.module.scss";
 import {Posts} from "./Post/Posts";
-import {PostType} from "../../../redux/state";
+import {ActionType, addPostAC, PostType, textAddPostAC} from "../../../redux/state";
+
 
 type MyPostsPropsType = {
     posts: Array<PostType>
-    addPost: () => void
+    dispatch: (action: ActionType) => void
     message: string
-    textAddPost: (newText: string) => void
+
 }
+
+// let addPostActionCreator = () => {
+//     return {
+//         type: "TEXT-ADD-POST",
+//         newText: text
+//     }
+// }
 
 export const MyPosts = (props: MyPostsPropsType) => {
 
     let [error, setError] = useState<string | null>(null)
     const addPost = () => {
         if (props.message.trim()) {
-            props.addPost()
+            props.dispatch(addPostAC())
         } else {
             setError("Необходимно ввести текст")
         }
 
     }
-    const textAddPost = (e: ChangeEvent<HTMLTextAreaElement>) => props.textAddPost(e.currentTarget.value)
-
+    const textAddPost = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        let text = e.currentTarget.value
+        // let action = {type: "TEXT-ADD-POST", newText: text}
+        props.dispatch(textAddPostAC(text))
+        // props.dispatch(action)
+    }
 
     let postElement = props.posts.map(p => <Posts name={p.name}
                                                   time={p.time}

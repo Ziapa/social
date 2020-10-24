@@ -2,12 +2,11 @@ import React, {ChangeEvent, useState} from "react";
 import s from "./Dialogs.module.scss";
 import {DialogItem} from "./Dialog/DialogItem";
 import {MessageItem} from "./Message/MessageItem";
-import {DialogsPageType} from "../../redux/state";
+import {ActionType, AddMessageAC, DialogsPageType, TextAddMessageAC} from "../../redux/state";
 
 type DialogsType = {
     dialogs: DialogsPageType
-    textAddMessage: (newText: string) => void
-    addMessage: () => void
+    dispatch: (action: ActionType) => void
 }
 
 export const Dialogs = (props: DialogsType) => {
@@ -19,15 +18,17 @@ export const Dialogs = (props: DialogsType) => {
     let textAddPost = React.createRef<HTMLTextAreaElement>()
     let addPost = () => {
         if (props.dialogs.textAddMessage.trim()) {
-            props.addMessage()
+            props.dispatch(AddMessageAC())
         } else {
             setError("Необходимно ввести текст")
         }
     }
 
 
-    const addTextMessage = (e: ChangeEvent<HTMLTextAreaElement>) => props.textAddMessage(e.currentTarget.value)
-
+    const addTextMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        let text =  e.currentTarget.value
+        props.dispatch(TextAddMessageAC(text))
+    }
 
     return (
         <div className={s.dialogs}>
