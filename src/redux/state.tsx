@@ -1,4 +1,4 @@
-import { profileReducer } from "./profile-reducer"
+import {profileReducer} from "./profile-reducer"
 import {dialogsReducer} from "./dialogs-reducer";
 
 let rerenderEntireTree = () => {
@@ -45,30 +45,7 @@ export type StoreType = {
     dispatch: (action: ActionType) => void
 }
 
-export type ActionType =
-    ReturnType<typeof addPostAC>
-    | ReturnType<typeof textAddPostAC>
-    | ReturnType<typeof AddMessageAC>
-    | ReturnType<typeof TextAddMessageAC>
-
-
-export const AddMessageAC = () => ({type: "ADD_MESSAGE"} as const)
-
-export const TextAddMessageAC = (newText: string) => {
-    return {
-        type: "TEXT-ADD-MESSAGE",
-        newText: newText
-    } as const
-}
-export const textAddPostAC = (newText: string) => {
-    return {
-        type: "TEXT-ADD-POST",
-        newText: newText
-    } as const
-}
-export const addPostAC = () =>  ({type: "ADD-POST"} as const)
-
-
+export type ActionType = any
 
 let store: StoreType = {
     _state: {

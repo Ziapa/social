@@ -1,4 +1,10 @@
-import {ActionType, DialogsPageType} from "./state";
+import {DialogsPageType} from "./state";
+
+export type ActionType =
+    ReturnType<typeof AddMessageAC>
+    | ReturnType<typeof TextAddMessageAC>
+
+
 
 export const AddMessageAC = () => ({type: "ADD_MESSAGE"} as const)
 
@@ -8,7 +14,6 @@ export const TextAddMessageAC = (newText: string) => {
         newText: newText
     } as const
 }
-
 
 export const dialogsReducer = (state: DialogsPageType, action: ActionType) => {
     switch (action.type) {
@@ -24,6 +29,8 @@ export const dialogsReducer = (state: DialogsPageType, action: ActionType) => {
         case "TEXT-ADD-MESSAGE":
             state.textAddMessage = action.newText
             break;
+        default:
+            return state
     }
 
     return state
