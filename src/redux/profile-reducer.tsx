@@ -1,20 +1,45 @@
-import {PostType, ProfilePageType} from "./state";
+import { PostType } from "./types"
 
-export type ActionType =
-    ReturnType<typeof addPostAC>
-    | ReturnType<typeof textAddPostAC>
+export type ActionType = TextAddPostACType | AddPostACType
 
 
-export const textAddPostAC = (newText: string) => {
+type InitialStateType = {
+    changeTextNewPost:string
+    posts: Array<PostType>
+}
+
+let initialState = {
+    changeTextNewPost: "",
+    posts: [
+        {
+            name: "Dart",
+            time: "10:23",
+            avatar: "https://html5css.ru/w3css/img_avatar3.png",
+            message: "bye",
+            like: 25
+        }
+] as Array<PostType>
+}
+
+export type TextAddPostACType = {
+    type: "TEXT-ADD-POST"
+    newText: string
+}
+
+export const textAddPostAC = (newText: string): TextAddPostACType => {
     return {
         type: "TEXT-ADD-POST",
         newText: newText
     } as const
 }
-export const addPostAC = () =>  ({type: "ADD-POST"} as const)
+export type AddPostACType = {
+    type: "ADD-POST"
+}
+
+export const addPostAC = ():AddPostACType =>  ({type: "ADD-POST"} as const)
 
 
-export const profileReducer = (state: ProfilePageType, action: ActionType) => {
+export const profileReducer = (state: InitialStateType = initialState, action: ActionType) => {
     switch (action.type) {
         case "ADD-POST":
             let newPost: PostType = {

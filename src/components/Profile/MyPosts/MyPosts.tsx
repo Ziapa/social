@@ -1,15 +1,15 @@
-import React, {ChangeEvent, useState} from "react";
+import React from "react";
 import s from "./MyPosts.module.scss";
 import {Posts} from "./Post/Posts";
-import {ActionType, PostType} from "../../../redux/state";
-import {addPostAC, textAddPostAC} from "../../../redux/profile-reducer";
+import {PostType} from "../../../redux/store";
 
 
 type MyPostsPropsType = {
-    posts: Array<PostType>
-    dispatch: (action: ActionType) => void
     message: string
-
+    addPost: ()=> void
+    error:string | null
+    posts:Array<PostType>
+    updateNewPostText:(e: React.ChangeEvent<HTMLTextAreaElement>)=> void
 }
 
 // let addPostActionCreator = () => {
@@ -21,22 +21,6 @@ type MyPostsPropsType = {
 
 export const MyPosts = (props: MyPostsPropsType) => {
 
-    let [error, setError] = useState<string | null>(null)
-    const addPost = () => {
-        if (props.message.trim()) {
-            props.dispatch(addPostAC())
-        } else {
-            setError("Необходимно ввести текст")
-        }
-
-    }
-    const textAddPost = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let text = e.currentTarget.value
-        // let action = {type: "TEXT-ADD-POST", newText: text}
-        props.dispatch(textAddPostAC(text))
-        // props.dispatch(action)
-    }
-
     let postElement = props.posts.map(p => <Posts name={p.name}
                                                   time={p.time}
                                                   avatar={p.avatar}
@@ -47,16 +31,16 @@ export const MyPosts = (props: MyPostsPropsType) => {
             <div>
                 <div>
                     <textarea
-                        className={error ? s.error : ""}
+                        className={props.error ? s.error : ""}
                         value={props.message}
-                        onChange={textAddPost}
+                        onChange={props.updateNewPostText}
                         placeholder={"AddPost"}
                     />
                 </div>
                 <div>
-                    <button onClick={addPost}>add post
+                    <button onClick={props.addPost}>add post
                     </button>
-                    {error && <div className={s.errorMessage}>{error}</div>}
+                    {props.error && <div className={s.errorMessage}>{props.error}</div>}
                 </div>
             </div>
             {postElement}

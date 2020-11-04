@@ -4,19 +4,19 @@ import {Header} from "./components/Header/Header";
 import {NavBar} from "./components/NavBar/NavBar";
 import {Profile} from "./components/Profile/Profile";
 import {Route} from 'react-router-dom';
-import {Dialogs} from './components/Dialogs/Dialogs';
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Setting} from "./components/Setting/Setting";
-import {StoreType} from "./redux/state";
+import {AppStateType} from './redux/redux-store';
+import {Dispatch} from "redux";
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
-type PropsType = {
-    store: StoreType
+type AppPropsType = {
+    store: AppStateType
+    dispatch: Dispatch
 }
 
-const App = (props:PropsType) => {
-
-    const state = props.store.getState()
+const App = (props: AppPropsType) => {
 
     return (
         <div className="app-wrapper">
@@ -26,16 +26,19 @@ const App = (props:PropsType) => {
                 <div className={"app-wrapper-content"}>
                     <Route path={"/profile"}
                            render={() => <Profile
-                               profilePage={state.profilePage}
-                               dispatch={props.store.dispatch.bind(props.store)}
+                               profilePage={props.store.profilePage}
+                               dispatch={props.dispatch}
                            />}/>
                     <Route path={"/dialogs"}
-                           render={() => <Dialogs
-                               dispatch={props.store.dispatch.bind(props.store)}
-                               dialogs={state.dialogsPage}/>}/>
-                    <Route path={"/news"} render={() => <News/>}/>
-                    <Route path={"/music"} render={() => <Music/>}/>
-                    <Route path={"/settings"} render={() => <Setting/>}/>
+                           render={() => <DialogsContainer
+                               dispatch={props.dispatch}
+                               dialogs={props.store.dialogsPage}/>}/>
+                    <Route path={"/news"}
+                           render={() => <News/>}/>
+                    <Route path={"/music"}
+                           render={() => <Music/>}/>
+                    <Route path={"/settings"}
+                           render={() => <Setting/>}/>
                 </div>
             </div>
         </div>
