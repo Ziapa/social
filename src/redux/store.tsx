@@ -64,9 +64,10 @@ let store: StoreType = {
         dialogsPage: {
             textAddMessage: "",
             dialog: [
-                {name: "Den", id: 1},
+                {name: "Morf", id: 1},
                 {name: "SmiT", id: 2},
-                {name: "Braun", id: 3}
+                {name: "Neo", id: 3},
+                {name: "Mutniy", id: 4}
             ],
 
             message: [
