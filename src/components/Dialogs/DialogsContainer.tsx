@@ -1,36 +1,22 @@
-import React, {ChangeEvent, useState} from "react";
-import {ActionType, DialogsPageType} from "../../redux/store";
+import {ActionType, RootStateType} from "../../redux/store";
 import {AddMessageAC, TextAddMessageAC} from "../../redux/dialogs-reducer";
 import {Dialogs} from "./Dialogs";
+import {connect} from "react-redux";
 
-type DialogsType = {
-    dialogs: DialogsPageType
-    dispatch: (action: ActionType) => void
+
+let mapSateToProps = (state: RootStateType) => {
+    return {
+        dialogs: state.dialogsPage
+    }
 }
 
-export const DialogsContainer = (props: DialogsType) => {
-
-
-    let [error, setError] = useState<string | null>(null)
-    let addPost = () => {
-        if (props.dialogs.textAddMessage.trim()) {
-            props.dispatch(AddMessageAC())
-        } else {
-            setError("Необходимно ввести текст")
+let mapDispatchToProps = (dispatch:(action: ActionType) => void) => {
+    return {
+        addPost: () => dispatch(AddMessageAC()),
+        addTextMessage: (text:string) => {dispatch(TextAddMessageAC(text))
         }
     }
-
-
-    const addTextMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let text = e.currentTarget.value
-        props.dispatch(TextAddMessageAC(text))
-    }
-
-    return (
-        <Dialogs error={error}
-                 addPost={addPost}
-                 dialogs={props.dialogs}
-                 addTextMessage={addTextMessage}
-        />
-    )
 }
+
+
+export const DialogsContainer = connect(mapSateToProps, mapDispatchToProps)(Dialogs);

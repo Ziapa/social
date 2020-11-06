@@ -26,11 +26,11 @@ let initialState = {
 }
 
 export type AddMessageACType = {
-    type:"ADD_MESSAGE"
+    type: "ADD_MESSAGE"
 }
 
 
-export const AddMessageAC  = ( ):AddMessageACType => ({type: "ADD_MESSAGE" })
+export const AddMessageAC = (): AddMessageACType => ({type: "ADD_MESSAGE"})
 
 export type TextAddMessageACType = {
     type: "TEXT-ADD-MESSAGE"
@@ -45,25 +45,28 @@ export const TextAddMessageAC = (newText: string): TextAddMessageACType => {
 }
 
 
+export const dialogsReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+    let newState = {
+        ...state,
+        message: [...state.message]
+    }
 
-export const dialogsReducer = (state: InitialStateType = initialState, action: ActionType) :InitialStateType => {
     switch (action.type) {
         case "ADD_MESSAGE":
             let newMessage = {
                 message: state.textAddMessage
                 , id: 4
             }
-            state.message.push(newMessage)
-            state.textAddMessage = ""
-            break;
+            newState.message.push(newMessage)
+            newState.textAddMessage = ""
+            return newState
 
         case "TEXT-ADD-MESSAGE":
-            state.textAddMessage = action.newText
-            break;
+            newState.textAddMessage = action.newText
+            return newState
+
         default:
             return state
     }
-
-    return state
 }
 

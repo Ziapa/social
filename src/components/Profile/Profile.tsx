@@ -1,12 +1,10 @@
 import React from "react";
 import s from "./Profile.module.scss";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {ActionType, ProfilePageType} from "../../redux/store";
-import {MyPostsContainer} from "./MyPosts/MyPostContainer";
+import { MyPostsContainer } from "./MyPosts/MyPostContainer";
+
 
 type DialogsPropsType = {
-    profilePage: ProfilePageType
-    dispatch: (action:ActionType) => void
 
 }
 
@@ -18,9 +16,9 @@ export const Profile = (props: DialogsPropsType) => {
                  alt=""/>
             <ProfileInfo/>
             <MyPostsContainer
-                message={props.profilePage.changeTextNewPost}
-                posts={props.profilePage.posts}
-                dispatch={props.dispatch}
+                // message={props.profilePage.changeTextNewPost}
+                // posts={props.profilePage.posts}
+                // dispatch={props.dispatch}
             />
         </div>
     )

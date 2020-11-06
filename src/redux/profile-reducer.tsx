@@ -1,10 +1,10 @@
-import { PostType } from "./types"
+import {PostType} from "./types"
 
 export type ActionType = TextAddPostACType | AddPostACType
 
 
 type InitialStateType = {
-    changeTextNewPost:string
+    changeTextNewPost: string
     posts: Array<PostType>
 }
 
@@ -18,7 +18,7 @@ let initialState = {
             message: "bye",
             like: 25
         }
-] as Array<PostType>
+    ] as Array<PostType>
 }
 
 export type TextAddPostACType = {
@@ -36,10 +36,15 @@ export type AddPostACType = {
     type: "ADD-POST"
 }
 
-export const addPostAC = ():AddPostACType =>  ({type: "ADD-POST"} as const)
+export const addPostAC = (): AddPostACType => ({type: "ADD-POST"} as const)
 
 
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType) => {
+    let newState = {
+        ...state,
+        posts: [...state.posts]
+    }
+
     switch (action.type) {
         case "ADD-POST":
             let newPost: PostType = {
@@ -49,15 +54,15 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
                 avatar: "https://html5css.ru/w3css/img_avatar3.png",
                 like: 0
             }
-            state.posts.push(newPost)
-            state.changeTextNewPost = ""
-            break;
-        case "TEXT-ADD-POST":
-            state.changeTextNewPost = action.newText
-            break;
+            newState.posts.push(newPost)
+            newState.changeTextNewPost = ""
+            return newState
+        case "TEXT-ADD-POST": {
+            let newState = {...state}
+            newState.changeTextNewPost = action.newText
+            return newState
+        }
         default:
             return state
     }
-
-    return state
 }
