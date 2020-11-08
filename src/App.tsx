@@ -8,9 +8,9 @@ import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Setting} from "./components/Setting/Setting";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import {UsersContainer} from "./components/Users/UsersContainer";
 
-type AppPropsType = {
-}
+type AppPropsType = {}
 
 const App = (props: AppPropsType) => {
 
@@ -30,6 +30,8 @@ const App = (props: AppPropsType) => {
                            render={() => <Music/>}/>
                     <Route path={"/settings"}
                            render={() => <Setting/>}/>
+                    <Route path={"/users"}
+                           render={() => <UsersContainer/>}/>
                 </div>
             </div>
         </div>

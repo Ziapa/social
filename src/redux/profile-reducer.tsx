@@ -40,28 +40,24 @@ export const addPostAC = (): AddPostACType => ({type: "ADD-POST"} as const)
 
 
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType) => {
-    let newState = {
-        ...state,
-        posts: [...state.posts]
-    }
-
     switch (action.type) {
         case "ADD-POST":
-            let newPost: PostType = {
-                name: "Dart",
-                message: state.changeTextNewPost,
-                time: "11:00",
-                avatar: "https://html5css.ru/w3css/img_avatar3.png",
-                like: 0
+            return {
+                ...state,
+                posts: [...state.posts, {
+                    name: "Dart",
+                    message: state.changeTextNewPost,
+                    time: "11:00",
+                    avatar: "https://html5css.ru/w3css/img_avatar3.png",
+                    like: 0
+                }],
+                changeTextNewPost: ""
             }
-            newState.posts.push(newPost)
-            newState.changeTextNewPost = ""
-            return newState
-        case "TEXT-ADD-POST": {
-            let newState = {...state}
-            newState.changeTextNewPost = action.newText
-            return newState
-        }
+        case "TEXT-ADD-POST":
+            return {
+                ...state,
+                changeTextNewPost: action.newText
+            }
         default:
             return state
     }

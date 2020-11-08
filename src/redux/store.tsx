@@ -1,5 +1,6 @@
 import {profileReducer} from "./profile-reducer"
 import {dialogsReducer} from "./dialogs-reducer";
+import {v1} from "uuid";
 
 let rerenderEntireTree = () => {
 }
@@ -33,9 +34,22 @@ export type ProfilePageType = {
     changeTextNewPost: string
 }
 
+export type UsersPegaType = {
+    users: Array<UsersType>
+}
+
+type UsersType = {
+    name: string
+    status: string
+    avatar: string
+    id: string
+    followed: boolean
+}
+
 export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
+    usersPage: UsersPegaType
 }
 
 export type StoreType = {
@@ -49,6 +63,14 @@ export type ActionType = any
 
 let store: StoreType = {
     _state: {
+        usersPage: {
+            users: [
+                {name: "Dmitry", status: "ready", avatar: "", id: v1(), followed: false},
+                {name: "Alex", status: "ready", avatar: "", id: v1(), followed: true},
+                {name: "Sveta", status: "ready", avatar: "", id: v1(), followed: false},
+                {name: "Ignat", status: "ready", avatar: "", id: v1(), followed: true}
+            ]
+        },
         profilePage: {
             changeTextNewPost: "",
             posts: [
@@ -85,42 +107,9 @@ let store: StoreType = {
     },
 
     dispatch(action) {
-
-        // ProfilePage
         this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
-        rerenderEntireTree()
-    },
-    // addPost() {
-    //     let newPost: PostType = {
-    //         name: "Dart",
-    //         message: this._state.profilePage.changeTextNewPost,
-    //         time: "11:00",
-    //         avatar: "https://html5css.ru/w3css/img_avatar3.png",
-    //         like: 0
-    //     }
-    //     this._state.profilePage.posts.push(newPost)
-    //     this._state.profilePage.changeTextNewPost = ""
-    //     rerenderEntireTree()
-    // },
-    // addMessage() {
-    //     let newMessage = {
-    //         message: this._state.dialogsPage.textAddMessage
-    //         , id: 4
-    //     }
-    //     this._state.dialogsPage.message.push(newMessage)
-    //     this._state.dialogsPage.textAddMessage = ""
-    //     rerenderEntireTree()
-    // },
-    // textAddPost(newText) {
-    //     this._state.profilePage.changeTextNewPost = newText
-    //     rerenderEntireTree()
-    // },
-    // textAddMessage(newText) {
-    //     this._state.dialogsPage.textAddMessage = newText
-    //     rerenderEntireTree()
-    //
-    // },
+    }
 }
 
 

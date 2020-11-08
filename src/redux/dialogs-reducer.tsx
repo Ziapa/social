@@ -46,24 +46,22 @@ export const TextAddMessageAC = (newText: string): TextAddMessageACType => {
 
 
 export const dialogsReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
-    let newState = {
-        ...state,
-        message: [...state.message]
-    }
 
-    switch (action.type) {
+
+    switch(action.type) {
         case "ADD_MESSAGE":
-            let newMessage = {
+            return {...state,
+            message: [...state.message, {
                 message: state.textAddMessage
                 , id: 4
+            }],
+                textAddMessage:""
             }
-            newState.message.push(newMessage)
-            newState.textAddMessage = ""
-            return newState
 
         case "TEXT-ADD-MESSAGE":
-            newState.textAddMessage = action.newText
-            return newState
+            return {...state,
+            textAddMessage: action.newText
+            }
 
         default:
             return state
