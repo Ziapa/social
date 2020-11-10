@@ -18,7 +18,7 @@ let initialState = {
             message: "bye",
             like: 25
         }
-    ] as Array<PostType>
+    ]
 }
 
 export type TextAddPostACType = {
@@ -30,13 +30,13 @@ export const textAddPostAC = (newText: string): TextAddPostACType => {
     return {
         type: "TEXT-ADD-POST",
         newText: newText
-    } as const
+    }
 }
 export type AddPostACType = {
     type: "ADD-POST"
 }
 
-export const addPostAC = (): AddPostACType => ({type: "ADD-POST"} as const)
+export const addPostAC = (): AddPostACType => ({type: "ADD-POST"} )
 
 
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType) => {

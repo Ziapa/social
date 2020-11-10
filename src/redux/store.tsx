@@ -1,6 +1,5 @@
 import {profileReducer} from "./profile-reducer"
 import {dialogsReducer} from "./dialogs-reducer";
-import {v1} from "uuid";
 
 let rerenderEntireTree = () => {
 }
@@ -38,12 +37,23 @@ export type UsersPegaType = {
     users: Array<UsersType>
 }
 
-type UsersType = {
+export type DataType = {
+    error: null
+    items: Array<UsersType>
+    totalCount: number
+}
+
+export type UsersType = {
+    id: string
     name: string
     status: string
-    avatar: string
-    id: string
+    photos: PhotoType
     followed: boolean
+}
+
+export type PhotoType = {
+    small: string
+    large: string
 }
 
 export type RootStateType = {
@@ -64,12 +74,7 @@ export type ActionType = any
 let store: StoreType = {
     _state: {
         usersPage: {
-            users: [
-                {name: "Dmitry", status: "ready", avatar: "", id: v1(), followed: false},
-                {name: "Alex", status: "ready", avatar: "", id: v1(), followed: true},
-                {name: "Sveta", status: "ready", avatar: "", id: v1(), followed: false},
-                {name: "Ignat", status: "ready", avatar: "", id: v1(), followed: true}
-            ]
+            users: []
         },
         profilePage: {
             changeTextNewPost: "",

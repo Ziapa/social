@@ -9,6 +9,8 @@ import {Music} from "./components/Music/Music";
 import {Setting} from "./components/Setting/Setting";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
+import {Friends} from "./components/Friends/Friends";
+import {FriendsContainer} from "./components/Friends/FriendsContainer";
 
 type AppPropsType = {}
 
@@ -32,7 +34,9 @@ const App = (props: AppPropsType) => {
                            render={() => <Setting/>}/>
                     <Route path={"/users"}
                            render={() => <UsersContainer/>}/>
+
                 </div>
+
             </div>
         </div>
 

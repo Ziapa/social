@@ -1,27 +1,16 @@
-import {v1} from "uuid";
+import { UsersType } from "./store"
 
-export type ActionType = FollowACType | UnFollowACType
+
+export type ActionType = FollowACType | UnFollowACType | setUsersACType
 
 
 type InitialStateType = {
     users: Array<UsersType>
 }
 
-type UsersType = {
-    name: string
-    status: string
-    avatar: string
-    id: string
-    followed: boolean
-}
 
 let initialState = {
-    users: [
-        {name: "Dmitry", status: "ready", avatar: "https://w7.pngwing.com/pngs/117/752/png-transparent-computer-icons-user-icon-design-numerous-miscellaneous-logo-computer-wallpaper.png", id: v1(), followed: false},
-        {name: "Alex", status: "ready", avatar: "https://w7.pngwing.com/pngs/117/752/png-transparent-computer-icons-user-icon-design-numerous-miscellaneous-logo-computer-wallpaper.png", id: v1(), followed: true},
-        {name: "Sveta", status: "ready", avatar: "https://w7.pngwing.com/pngs/117/752/png-transparent-computer-icons-user-icon-design-numerous-miscellaneous-logo-computer-wallpaper.png", id: v1(), followed: false},
-        {name: "Ignat", status: "ready", avatar: "https://w7.pngwing.com/pngs/117/752/png-transparent-computer-icons-user-icon-design-numerous-miscellaneous-logo-computer-wallpaper.png", id: v1(), followed: true}
-    ]
+    users: []
 }
 
 export type FollowACType = {
@@ -34,25 +23,22 @@ export type UnFollowACType = {
     usersID: string
 }
 
-
-export const FollowAC = (usersID: string): FollowACType => {
-    return {
-        type: "FOLLOW",
-        usersID: usersID
-    }
+export type setUsersACType = {
+    type: "SET_USERS",
+    users: Array<UsersType>
 }
 
-export const UnFollowAC = (usersID: string): UnFollowACType => {
-    return {
-        type: "UNFOLLOW",
-        usersID: usersID
-    }
-}
 
 export const usersReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
 
 
     switch (action.type) {
+        case "SET_USERS":
+            return {
+                ...state,
+                users: action.users
+            }
+
         case "FOLLOW":
             return {
                 ...state,
@@ -76,6 +62,29 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
             }
         default:
             return state
+    }
+}
+
+
+
+export const FollowAC = (usersID: string): FollowACType => {
+    return {
+        type: "FOLLOW",
+        usersID: usersID
+    }
+}
+
+export const UnFollowAC = (usersID: string): UnFollowACType => {
+    return {
+        type: "UNFOLLOW",
+        usersID: usersID
+    }
+}
+
+export const setUsersAC = (users: Array<UsersType>): setUsersACType => {
+    return {
+        type: "SET_USERS",
+        users: users
     }
 }
 
