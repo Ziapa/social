@@ -3,6 +3,7 @@ export type ActionType =
    | ReturnType<typeof UnFollowAC>
    | ReturnType<typeof setUsersAC>
    | ReturnType<typeof setUserCountAC>
+   | ReturnType<typeof setPageActiveAC>
 
 export type UsersType = {
     id: string
@@ -19,7 +20,9 @@ export type PhotoType = {
 
 let initialState = {
     users: [] as Array<UsersType>,
-    userCount: 0
+    userCount: 0,
+    userPageCount: 100,
+    pageActive: 1
 }
 
 export type InitialStateUsersType = typeof initialState
@@ -39,6 +42,12 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
             return {
                 ...state,
                 userCount: action.usersCount
+            }
+            case "SET_PAGE" :
+            debugger
+            return {
+                ...state,
+                pageActive: action.page
             }
 
         case "FOLLOW":
@@ -73,6 +82,8 @@ export const FollowAC = (usersID: string) => ({type: "FOLLOW", usersID: usersID}
 export const UnFollowAC = (usersID: string)  => ({type: "UNFOLLOW", usersID: usersID}) as const
 
 export const setUsersAC = (users: Array<UsersType>) => ({type: "SET_USERS", users: users}) as const
+
+export const setPageActiveAC = (page: number) => ({type: "SET_PAGE", page}) as const
 
 export const setUserCountAC = (usersCount: number) => ({type: "SET_USER_COUNT", usersCount}) as const
 
