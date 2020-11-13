@@ -1,12 +1,16 @@
-import {ActionType, RootStateType} from "../../redux/store";
-import {AddMessageAC, TextAddMessageAC} from "../../redux/dialogs-reducer";
+import {ActionType} from "../../redux/store";
+import {AddMessageAC, TextAddMessageAC, InitialStateDialogsType} from "../../redux/dialogs-reducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
+import {AppStateType} from "../../redux/redux-store";
 
 
-let mapSateToProps = (state: RootStateType) => {
+let mapSateToProps = (state: AppStateType) => {
+    debugger
     return {
-        dialogs: state.dialogsPage
+        dialog: state.dialogsPage.dialog,
+        message: state.dialogsPage.message,
+        textAddMessage: state.dialogsPage.textAddMessage,
     }
 }
 

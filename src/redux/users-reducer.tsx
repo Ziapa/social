@@ -1,42 +1,44 @@
-import { UsersType } from "./store"
+export type ActionType =
+   | ReturnType<typeof FollowAC>
+   | ReturnType<typeof UnFollowAC>
+   | ReturnType<typeof setUsersAC>
+   | ReturnType<typeof setUserCountAC>
 
-
-export type ActionType = FollowACType | UnFollowACType | setUsersACType
-
-
-type InitialStateType = {
-    users: Array<UsersType>
+export type UsersType = {
+    id: string
+    name: string
+    status: string
+    photos: PhotoType
+    followed: boolean
 }
 
+export type PhotoType = {
+    small: string
+    large: string
+}
 
 let initialState = {
-    users: []
+    users: [] as Array<UsersType>,
+    userCount: 0
 }
 
-export type FollowACType = {
-    type: "FOLLOW"
-    usersID: string
-}
-
-export type UnFollowACType = {
-    type: "UNFOLLOW"
-    usersID: string
-}
-
-export type setUsersACType = {
-    type: "SET_USERS",
-    users: Array<UsersType>
-}
+export type InitialStateUsersType = typeof initialState
 
 
-export const usersReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
 
 
+export const usersReducer = (state: InitialStateUsersType = initialState, action: ActionType): InitialStateUsersType => {
     switch (action.type) {
         case "SET_USERS":
             return {
                 ...state,
                 users: action.users
+            }
+        case "SET_USER_COUNT" :
+            debugger
+            return {
+                ...state,
+                userCount: action.usersCount
             }
 
         case "FOLLOW":
@@ -66,25 +68,11 @@ export const usersReducer = (state: InitialStateType = initialState, action: Act
 }
 
 
+export const FollowAC = (usersID: string) => ({type: "FOLLOW", usersID: usersID} ) as const
 
-export const FollowAC = (usersID: string): FollowACType => {
-    return {
-        type: "FOLLOW",
-        usersID: usersID
-    }
-}
+export const UnFollowAC = (usersID: string)  => ({type: "UNFOLLOW", usersID: usersID}) as const
 
-export const UnFollowAC = (usersID: string): UnFollowACType => {
-    return {
-        type: "UNFOLLOW",
-        usersID: usersID
-    }
-}
+export const setUsersAC = (users: Array<UsersType>) => ({type: "SET_USERS", users: users}) as const
 
-export const setUsersAC = (users: Array<UsersType>): setUsersACType => {
-    return {
-        type: "SET_USERS",
-        users: users
-    }
-}
+export const setUserCountAC = (usersCount: number) => ({type: "SET_USER_COUNT", usersCount}) as const
 

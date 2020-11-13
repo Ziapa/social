@@ -2,31 +2,33 @@ import React, {ChangeEvent, useState} from "react";
 import s from "./Dialogs.module.scss";
 import {DialogItem} from "./Dialog/DialogItem";
 import {MessageItem} from "./Message/MessageItem";
-import {DialogsPageType} from "../../redux/store";
+import {DialogsType, InitialStateDialogsType, MessagesType} from "../../redux/dialogs-reducer";
 
-type DialogsType = {
-    dialogs: DialogsPageType
+type DialogsPropsType = {
+    dialog: Array<DialogsType>
+    message: Array<MessagesType>
+    textAddMessage: string
     addPost: () => void
     addTextMessage: (text: string) => void
 }
 
-export const Dialogs = (props: DialogsType) => {
-
+export const Dialogs = (props: DialogsPropsType) => {
+    debugger
     let [error, setError] = useState<string | null>(null)
     let addPost = () => {
-        if (props.dialogs.textAddMessage.trim()) {
+        if (props.textAddMessage.trim()) {
             props.addPost()
         } else {
             setError("Необходимно ввести текст")
         }
     }
-    const valueTextMessage = props.dialogs.textAddMessage
+    const valueTextMessage = props.textAddMessage
     const changeValueTextMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
         props.addTextMessage(e.currentTarget.value)
     }
 
-    let dialogElement = props.dialogs.dialog.map(dialog => <DialogItem name={dialog.name} id={dialog.id}/>)
-    let messageElement = props.dialogs.message.map(message => <MessageItem message={message.message}/>)
+    let dialogElement = props.dialog.map(dialog => <DialogItem name={dialog.name} id={dialog.id}/>)
+    let messageElement = props.message.map(message => <MessageItem message={message.message}/>)
 
     return (
         <div className={s.dialogs}>

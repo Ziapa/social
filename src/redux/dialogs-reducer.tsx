@@ -1,66 +1,61 @@
-import {DialogsType, MessagesType} from "./types";
+import {v1} from "uuid";
 
-export type ActionType = AddMessageACType | TextAddMessageACType
+export type ActionType =
+    | ReturnType<typeof AddMessageAC>
+    | ReturnType<typeof TextAddMessageAC>
 
 
-type InitialStateType = {
-    textAddMessage: string,
-    dialog: Array<DialogsType>
-    message: Array<MessagesType>
-}
-
+// export type InitialStateDialogsType = {
+//     textAddMessage: string,
+//     dialog: Array<DialogsType>
+//     message: Array<MessagesType>
+// }
+export type InitialStateDialogsType = typeof initialState
 
 let initialState = {
     textAddMessage: "",
     dialog: [
-        {name: "Den", id: 1},
-        {name: "SmiT", id: 2},
-        {name: "Braun", id: 3}
+        {name: "Den", id: v1()},
+        {name: "SmiT", id: v1()},
+        {name: "Braun", id: v1()}
     ] as Array<DialogsType>,
 
     message: [
-        {message: "Hi", id: 1},
-        {message: "How are you?", id: 2},
-        {message: "Yo", id: 3}
+        {message: "Hi", id: v1()},
+        {message: "How are you?", id: v1()},
+        {message: "Yo", id: v1()}
     ] as Array<MessagesType>
 }
 
-export type AddMessageACType = {
-    type: "ADD_MESSAGE"
+export type DialogsType = {
+    id: string
+    name: string
+}
+
+export type MessagesType = {
+    id: string
+    message: string
 }
 
 
-export const AddMessageAC = (): AddMessageACType => ({type: "ADD_MESSAGE"})
-
-export type TextAddMessageACType = {
-    type: "TEXT-ADD-MESSAGE"
-    newText: string
-}
-
-export const TextAddMessageAC = (newText: string): TextAddMessageACType => {
-    return {
-        type: "TEXT-ADD-MESSAGE",
-        newText: newText
-    }
-}
+export const dialogsReducer = (state: InitialStateDialogsType = initialState, action: ActionType): InitialStateDialogsType => {
 
 
-export const dialogsReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
-
-
-    switch(action.type) {
+    switch (action.type) {
         case "ADD_MESSAGE":
-            return {...state,
-            message: [...state.message, {
-                message: state.textAddMessage
-                , id: 4
-            }],
-                textAddMessage:""
+            return {
+                ...state,
+                message: [...state.message, {
+                    message: state.textAddMessage
+                    , id: v1()
+                }],
+                textAddMessage: ""
             }
 
         case "TEXT-ADD-MESSAGE":
-            return {...state,
-            textAddMessage: action.newText
+            return {
+                ...state,
+                textAddMessage: action.newText
             }
 
         default:
@@ -68,3 +63,12 @@ export const dialogsReducer = (state: InitialStateType = initialState, action: A
     }
 }
 
+export const AddMessageAC = () => ({type: "ADD_MESSAGE"}) as const
+
+
+export const TextAddMessageAC = (newText: string) => {
+    return {
+        type: "TEXT-ADD-MESSAGE",
+        newText: newText
+    } as const
+}
