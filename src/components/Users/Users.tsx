@@ -1,81 +1,54 @@
 import React from "react";
-import {UsersType} from "../../redux/store";
-import axios from "axios"
 import s from "./Users.module.scss"
 import userPhoto from "../../assets/user.jpg"
+import {UsersType} from "../../redux/users-reducer";
+import {NavLink} from "react-router-dom";
 
 type UsersPropsType = {
     pageActive: number
     setPageActive: (page: number) => void
     userPageCount: number
     userCount: number
-    setUsersCounter: (userCounter: number) => void
+    setUsersCount: (userCounter: number) => void
     users: Array<UsersType>
     setUsers: (users: Array<UsersType>) => void
     follow: (userID: string) => void
     unFollow: (userID: string) => void
+    onPageChanged: (pageNumber: number) => void
 }
 
-type AxiosType = {
-    items: Array<UsersType>
-    totalCount: number
-    error: string
-}
-
-
-export class Users extends React.Component<UsersPropsType, any> {
-
-    componentDidMount() {
-        axios.get<AxiosType>(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.pageActive}&count=${this.props.userPageCount}`)
-            .then((res) => {
-                this.props.setUsers(res.data.items)
-                this.props.setUsersCounter(res.data.totalCount)
-            })
+export const Users = (props: UsersPropsType) => {
+    let pageCounter = Math.ceil(+props.userCount / +props.userPageCount)
+    let page = []
+    for (let i = 1; i <= pageCounter; i++) {
+        page.push(i)
     }
+    return (
 
-    onPageChanged = (pageNumber: number) => {
-        this.props.setPageActive(pageNumber)
-        axios.get<AxiosType>(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.userPageCount}`)
-            .then((res) => {
-                this.props.setUsers(res.data.items)
-                this.props.setUsersCounter(res.data.totalCount)
-            })
+        <div>
+            {page.map(p =>
 
-
-    }
+                <span onClick={() => props.onPageChanged(p)}
+                      className={p === props.pageActive ? s.active : ""}>{p}</span>)}
 
 
-    render() {
-        let pageCounter = Math.ceil(+this.props.userCount / +this.props.userPageCount)
-        let page = []
-        for (let i = 1; i <= pageCounter; i++) {
-            page.push(i)
-        }
-        return (
+            {props.users.map(u =>
+                <div key={u.id} className={s.main}>
+                    <NavLink to={"/profile/" + u.id}>
+                    <img src={u.photos.small ? u.photos.small : userPhoto} alt=""/>
+                    </NavLink>
+                    <div>{u.name}</div>
+                    <div>{u.status}</div>
+                    {u.followed
+                        ? <button onClick={() => {
+                            props.unFollow(u.id)
+                        }}>UnFollow</button>
+                        : <button onClick={() => {
+                            props.follow(u.id)
+                        }}>Follow</button>}
 
-            <div>
-                {page.map(p =>
-
-                    <span onClick={() => this.onPageChanged(p)}
-                                     className={p === this.props.pageActive ? s.active : ""}>{p}</span>)}
-
-
-                {this.props.users.map(u =>
-                    <div key={u.id} className={s.main}>
-                        <img src={u.photos.small ? u.photos.small : userPhoto} alt=""/>
-                        <div>{u.name}</div>
-                        <div>{u.status}</div>
-                        {u.followed
-                            ? <button onClick={() => {
-                                this.props.unFollow(u.id)
-                            }}>UnFollow</button>
-                            : <button onClick={() => {
-                                this.props.follow(u.id)
-                            }}>Follow</button>}
-
-                    </div>
-                )}
-            </div>
-        )
-    }
+                </div>
+            )}
+        </div>
+    )
 }

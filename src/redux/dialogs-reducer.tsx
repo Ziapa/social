@@ -1,8 +1,8 @@
 import {v1} from "uuid";
 
 export type ActionType =
-    | ReturnType<typeof AddMessageAC>
-    | ReturnType<typeof TextAddMessageAC>
+    | ReturnType<typeof addPost>
+    | ReturnType<typeof addTextMessage>
 
 
 // export type InitialStateDialogsType = {
@@ -63,10 +63,10 @@ export const dialogsReducer = (state: InitialStateDialogsType = initialState, ac
     }
 }
 
-export const AddMessageAC = () => ({type: "ADD_MESSAGE"}) as const
+export const addPost = () => ({type: "ADD_MESSAGE"}) as const
 
 
-export const TextAddMessageAC = (newText: string) => {
+export const addTextMessage = (newText: string) => {
     return {
         type: "TEXT-ADD-MESSAGE",
         newText: newText

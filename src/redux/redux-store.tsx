@@ -16,3 +16,7 @@ type ReducersType = typeof  reducers
 export type AppStateType = ReturnType<ReducersType>
 
 export let store = createStore(reducers)
+
+//@ts-ignore
+
+window.store = store

@@ -1,6 +1,6 @@
-import {addPostAC, textAddPostAC} from "../../../redux/profile-reducer";
+import {addPost, updateNewPostText} from "../../../redux/profile-reducer";
 import {MyPosts} from "./MyPosts";
-import {ActionType, RootStateType} from "../../../redux/store";
+import {RootStateType} from "../../../redux/store";
 import {connect} from "react-redux";
 
 
@@ -45,11 +45,6 @@ let mapSateToProps = (state: RootStateType) => {
     }
 }
 
-let mapDispatchToProps = (dispatch:(action: ActionType) => void) => {
-    return {
-        addPost: () => dispatch(addPostAC()),
-        updateNewPostText: (text:string) => {dispatch(textAddPostAC(text))}
-    }
-}
 
-export const MyPostsContainer = connect(mapSateToProps, mapDispatchToProps)(MyPosts);
+
+export const MyPostsContainer = connect(mapSateToProps, {addPost, updateNewPostText })(MyPosts);
