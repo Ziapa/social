@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.scss';
-import {Header} from "./components/Header/Header";
 import {NavBar} from "./components/NavBar/NavBar";
 import {Route} from 'react-router-dom';
 import {News} from "./components/News/News";
@@ -9,14 +8,15 @@ import {Setting} from "./components/Setting/Setting";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
-
+import {Login} from "./components/login/login";
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 
 const App = () => {
 
     return (
         <div className="app-wrapper">
-            <Header/>
+            <HeaderContainer />
             <div className={"body"}>
                 <NavBar/>
                 <div className={"app-wrapper-content"}>
@@ -32,6 +32,8 @@ const App = () => {
                            render={() => <Setting/>}/>
                     <Route path={"/users"}
                            render={() => <UsersContainer/>}/>
+                    <Route path={"/login"}
+                           render={() => <Login/>}/>
 
                 </div>
 

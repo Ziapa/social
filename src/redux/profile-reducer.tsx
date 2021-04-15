@@ -3,6 +3,15 @@ import {PostType} from "./types"
 export type ActionType = TextAddPostACType | AddPostACType | SetProfileType
 
 
+type mapStatePropsType = {
+    profile: ProfileType
+}
+type mapDispatchPropsType = {
+    setProfile: (profile: ProfileType) => void
+}
+
+export type reducerPropsType = mapStatePropsType & mapDispatchPropsType
+
 export type InitialStateType = {
     changeTextNewPost: string
     posts: Array<PostType>

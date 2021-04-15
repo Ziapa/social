@@ -11,12 +11,18 @@ a {
   color: white;
   text-decoration: none;
   font-size: 20px;
+  transition: margin-left 1.5s;
 
   &.active {
     color: red;
   }
-}
 
+  &:hover {
+    color: red;
+    margin-left: 20px;
+    transition: margin-left 3s;
+  }
+}
 
 
 .item {

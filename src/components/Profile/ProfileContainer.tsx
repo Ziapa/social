@@ -2,26 +2,11 @@ import React from "react";
 import {Profile} from "./Profile";
 import axios from "axios";
 import {connect} from "react-redux";
-import {ProfileType, setProfile} from "../../redux/profile-reducer";
+import {ProfileType, reducerPropsType, setProfile} from "../../redux/profile-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {withRouter, RouteComponentProps} from "react-router-dom";
 
-
-
-
-type RouterParams = {
-    userId: string
-}
-
-type mapStatePropsType = {
-    profile: ProfileType
-}
-type mapDispatchPropsType = {
-    setProfile: (profile: ProfileType) => void
-}
-
-
-type PropsType = mapStatePropsType & mapDispatchPropsType & RouteComponentProps<RouterParams>
+type PropsType = reducerPropsType & RouteComponentProps<{ userId: string }>
 
 export class ProfileContainer extends React.Component<PropsType> {
 
@@ -38,7 +23,20 @@ export class ProfileContainer extends React.Component<PropsType> {
         })
             .then((res) => {
                 this.props.setProfile(res.data)
-                debugger
+            })
+    }
+
+    componentDidUpdate() {
+        let userId = this.props.match.params.userId
+        if (!userId) {
+            userId = "12411"
+        }
+
+        axios.get<ProfileType>(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`, {
+            withCredentials: true
+        })
+            .then((res) => {
+                this.props.setProfile(res.data)
             })
     }
 
