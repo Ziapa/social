@@ -2,15 +2,18 @@ import {connect} from "react-redux";
 import {Users} from "./Users";
 import {UsersType} from "../../redux/store";
 import {
+    disable,
     follow,
-    unFollow,
-    setUsers,
+    setFetching,
+    setFetchingFalse,
+    setPageActive,
     setUserCount,
-    setPageActive, setFetching, setFetchingFalse
+    setUsers,
+    unFollow,
 } from "../../redux/users-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import React from "react";
-import axios from "axios";
+import {usersAPI} from "../../DAL/API";
 
 type AxiosType = {
     items: Array<UsersType>
@@ -21,7 +24,7 @@ type AxiosType = {
 export class UserContainer extends React.Component<any> {
 
     componentDidMount() {
-        axios.get<AxiosType>(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.pageActive}&count=${this.props.userPageCount}`)
+        usersAPI.getUsers(this.props.pageActive, this.props.userPageCount)
             .then((res) => {
                 this.props.setFetching()
                 this.props.setUsers(res.data.items)
@@ -31,15 +34,13 @@ export class UserContainer extends React.Component<any> {
 
     onPageChanged = (pageNumber: number) => {
         this.props.setFetchingFalse()
-        this.props.setPageActive(pageNumber)
-        axios.get<AxiosType>(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.userPageCount}`)
+        usersAPI.onPageChanged(pageNumber, this.props.userPageCount)
             .then((res) => {
+                this.props.setPageActive(pageNumber)
                 this.props.setFetching()
                 this.props.setUsers(res.data.items)
                 this.props.setUserCount(res.data.totalCount)
             })
-
-
     }
 
 
@@ -49,8 +50,10 @@ export class UserContainer extends React.Component<any> {
             <Users
                 users={this.props.users}
                 follow={this.props.follow}
+                disable={this.props.disable}
                 unFollow={this.props.unFollow}
                 setUsers={this.props.setUsers}
+                followingInProgress={this.props.followingInProgress}
                 userCount={this.props.userCount}
                 pageActive={this.props.pageActive}
                 onPageChanged={this.onPageChanged}
@@ -67,7 +70,8 @@ let mapStateToProps = (state: AppStateType) => {
         userCount: state.usersPage.userCount,
         userPageCount: state.usersPage.userPageCount,
         pageActive: state.usersPage.pageActive,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        followingInProgress: state.usersPage.followingInProgress
     }
 }
 
@@ -98,5 +102,7 @@ let mapStateToProps = (state: AppStateType) => {
 // }
 
 export const UsersContainer = connect(mapStateToProps,
-    {follow, unFollow, setUsers, setPageActive,
-        setUserCount, setFetching, setFetchingFalse})(UserContainer)
+    {
+        follow, unFollow, setUsers, setPageActive,
+        setUserCount, disable, setFetching, setFetchingFalse
+    })(UserContainer)

@@ -13,7 +13,7 @@ export const Profile = (props: { profile: ProfileType }) => {
 
             <img
                 src={photos ? photos : "https://st.depositphotos.com/1779253/5140/v/600/depositphotos_51405259-stock-illustration-male-avatar-profile-picture-use.jpg"}
-                className={photos ? "" : s.withoutPhoto}
+                className={s.sss + "" + photos ? "" : s.withoutPhoto}
                 alt=""/>
 
             <ProfileInfo profile={props.profile}/>

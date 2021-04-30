@@ -9,11 +9,17 @@
     height: 50px;
     margin-left: 15px;
   }
-  .login  {
-    float: left;
+
+  .login {
     margin: 15px;
 
+    &Name {
+      color: white;
+      margin: 15px;
+      font-size: 25px;
+    }
   }
+
   .active {
     color: red;
   }

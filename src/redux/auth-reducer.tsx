@@ -3,37 +3,51 @@ export type ActionType =
 
 type setDataAuthType = {
     type: "SET_DATA_AUTH"
-    data: InitialStateAuthType
+    data: dataType
 }
 
 type mapDispatchPropsType = {
-    setDataAuth: (data: InitialStateAuthType) => void
+    setDataAuth: (data: dataType) => void
 }
 
-type mapStatePropsType = {}
+type mapStatePropsType = {
+    isLogin: boolean
+}
 
 export type authReducerPropsType = mapDispatchPropsType & mapStatePropsType
 
 
 export type InitialStateAuthType = {
+    data: dataType
+    isLogin: boolean
+}
+
+type dataType = {
     id: number | null
     email: string
     login: string
 }
 
+
+
 const initialState: InitialStateAuthType = {
-    id: null,
-    email: "",
-    login: ""
+    data: {
+        id: null,
+        email: "",
+        login: ""
+    },
+    isLogin: false
 }
 
 
 export const authReducer = (state: InitialStateAuthType = initialState, action: ActionType): InitialStateAuthType => {
     switch (action.type) {
+
         case "SET_DATA_AUTH" :
             return {
                 ...state,
-                ...action.data
+                ...action.data,
+                isLogin: true
             }
 
         default:
@@ -41,4 +55,4 @@ export const authReducer = (state: InitialStateAuthType = initialState, action: 
     }
 }
 
-export const setDataAuth = (data: InitialStateAuthType): setDataAuthType => ({type: "SET_DATA_AUTH", data}) as const
+export const setDataAuth = (data: dataType): setDataAuthType => ({type: "SET_DATA_AUTH", data}) as const

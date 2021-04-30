@@ -11,7 +11,7 @@ a {
   color: white;
   text-decoration: none;
   font-size: 20px;
-  transition: margin-left 1.5s;
+  transition: margin-left .5s;
 
   &.active {
     color: red;
@@ -19,8 +19,8 @@ a {
 
   &:hover {
     color: red;
-    margin-left: 20px;
-    transition: margin-left 3s;
+    margin-left: 5px;
+    transition: margin-left 0.5s;
   }
 }
 
