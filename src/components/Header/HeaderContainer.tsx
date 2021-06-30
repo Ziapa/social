@@ -1,9 +1,8 @@
 import React from "react";
 import {Header} from "./Header";
-import {authReducerPropsType, setDataAuth} from "../../redux/auth-reducer";
+import {authReducerPropsType, setUserAuthData} from "../../redux/auth-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
-import {authAPI} from "../../DAL/API";
 
 type authMeType = {
     data: {id: number, login: string, email: string}
@@ -18,11 +17,7 @@ type authMeType = {
 class HeaderContainer extends React.Component<authReducerPropsType> {
 
     componentDidMount() {
-        authAPI.authMe()
-            .then((res) => {
-                if (res.data.resultCode === 0)
-                this.props.setDataAuth(res.data.data)
-            })
+       this.props.setUserAuthData()
     }
 
     render() {
@@ -35,5 +30,5 @@ const mapSateToProps = (state: AppStateType) => ({
  isLogin: state.auth.isLogin
 })
 
-export default connect(mapSateToProps,{setDataAuth})(HeaderContainer)
+export default connect(mapSateToProps,{setUserAuthData})(HeaderContainer)
 

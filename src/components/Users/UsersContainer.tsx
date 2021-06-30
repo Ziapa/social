@@ -1,57 +1,40 @@
 import {connect} from "react-redux";
 import {Users} from "./Users";
-import {UsersType} from "../../redux/store";
 import {
     disable,
     follow,
-    setFetching,
-    setFetchingFalse,
-    setPageActive,
-    setUserCount,
-    setUsers,
+    getUsers,
     unFollow,
+    following,
+    unFollowing
 } from "../../redux/users-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import React from "react";
-import {usersAPI} from "../../DAL/API";
+import {Redirect} from "react-router-dom";
 
-type AxiosType = {
-    items: Array<UsersType>
-    totalCount: number
-    error: string
-}
 
 export class UserContainer extends React.Component<any> {
 
     componentDidMount() {
-        usersAPI.getUsers(this.props.pageActive, this.props.userPageCount)
-            .then((res) => {
-                this.props.setFetching()
-                this.props.setUsers(res.data.items)
-                this.props.setUserCount(res.data.totalCount)
-            })
+        this.props.getUsers(this.props.userPageCount)
+    }
+    onPageChanged = (pageNumber: number) => {
+        this.props.getUsers(pageNumber)
     }
 
-    onPageChanged = (pageNumber: number) => {
-        this.props.setFetchingFalse()
-        usersAPI.onPageChanged(pageNumber, this.props.userPageCount)
-            .then((res) => {
-                this.props.setPageActive(pageNumber)
-                this.props.setFetching()
-                this.props.setUsers(res.data.items)
-                this.props.setUserCount(res.data.totalCount)
-            })
-    }
+
 
 
     render() {
 
+        if (!this.props.isLogin) return <Redirect to="/login"/>
+
         return (this.props.isFetching ?
             <Users
                 users={this.props.users}
-                follow={this.props.follow}
+                following={this.props.following}
                 disable={this.props.disable}
-                unFollow={this.props.unFollow}
+                unFollowing={this.props.unFollowing}
                 setUsers={this.props.setUsers}
                 followingInProgress={this.props.followingInProgress}
                 userCount={this.props.userCount}
@@ -66,6 +49,7 @@ export class UserContainer extends React.Component<any> {
 
 let mapStateToProps = (state: AppStateType) => {
     return {
+        isLogin: state.auth.isLogin,
         users: state.usersPage.users,
         userCount: state.usersPage.userCount,
         userPageCount: state.usersPage.userPageCount,
@@ -103,6 +87,10 @@ let mapStateToProps = (state: AppStateType) => {
 
 export const UsersContainer = connect(mapStateToProps,
     {
-        follow, unFollow, setUsers, setPageActive,
-        setUserCount, disable, setFetching, setFetchingFalse
+        follow,
+        unFollow,
+        disable,
+        getUsers,
+        following,
+        unFollowing
     })(UserContainer)

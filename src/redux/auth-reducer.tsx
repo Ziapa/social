@@ -1,3 +1,5 @@
+import {authAPI} from "../DAL/API";
+
 export type ActionType =
     | setDataAuthType
 
@@ -7,7 +9,7 @@ type setDataAuthType = {
 }
 
 type mapDispatchPropsType = {
-    setDataAuth: (data: dataType) => void
+    setUserAuthData: () => void
 }
 
 type mapStatePropsType = {
@@ -55,4 +57,13 @@ export const authReducer = (state: InitialStateAuthType = initialState, action: 
     }
 }
 
+
 export const setDataAuth = (data: dataType): setDataAuthType => ({type: "SET_DATA_AUTH", data}) as const
+
+export const setUserAuthData = () => (dispatch: any) => {
+    authAPI.authMe()
+        .then((res) => {
+            if (res.data.resultCode === 0)
+                dispatch(setDataAuth(res.data.data))
+        })
+}

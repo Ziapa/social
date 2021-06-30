@@ -33,7 +33,8 @@ export const MyPosts = (props: MyPostsPropsType) => {
         props.updateNewPostText(e.currentTarget.value)
     }
 
-    let postElement = props.posts.map(p => <Posts
+    let postElement = props.posts.map((p, i) => <Posts
+        key={i}
         name={p.name}
         time={p.time}
         avatar={p.avatar}

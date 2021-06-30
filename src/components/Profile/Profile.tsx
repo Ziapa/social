@@ -3,10 +3,13 @@ import s from "./Profile.module.scss";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostContainer";
 import {ProfileType} from "../../redux/profile-reducer";
+import {Redirect} from "react-router-dom";
 
-export const Profile = (props: { profile: ProfileType }) => {
+export const Profile = (props: { profile: ProfileType}) => {
 
     let photos = props.profile.photos?.large
+
+
 
     return (
         <div className={s.Profile}>

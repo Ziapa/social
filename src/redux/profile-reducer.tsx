@@ -1,13 +1,24 @@
 import {PostType} from "./types"
+import {profileAPI} from "../DAL/API";
 
 export type ActionType = TextAddPostACType | AddPostACType | SetProfileType
 
+export type AddPostACType = {
+    type: "ADD-POST"
+}
+
+export type SetProfileType = {
+    type: "SET_PROFILE",
+    profile: ProfileType
+}
 
 type mapStatePropsType = {
     profile: ProfileType
+    isLogin: boolean
 }
 type mapDispatchPropsType = {
-    setProfile: (profile: ProfileType) => void
+
+    getUserProfile: (userID: string) => void
 }
 
 export type reducerPropsType = mapStatePropsType & mapDispatchPropsType
@@ -61,24 +72,6 @@ export type TextAddPostACType = {
     newText: string
 }
 
-export const updateNewPostText = (newText: string): TextAddPostACType => {
-    return {
-        type: "TEXT-ADD-POST",
-        newText: newText
-    }
-}
-export type AddPostACType = {
-    type: "ADD-POST"
-}
-
-export type SetProfileType = {
-    type: "SET_PROFILE",
-    profile: ProfileType
-}
-
-export const addPost = (): AddPostACType => ({type: "ADD-POST"})
-
-export const setProfile = (profile: ProfileType): SetProfileType => ({type: "SET_PROFILE", profile})
 
 
 export const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
@@ -108,5 +101,26 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
             }
         default:
             return state
+    }
+}
+
+export const updateNewPostText = (newText: string): TextAddPostACType => {
+    return {
+        type: "TEXT-ADD-POST",
+        newText: newText
+    }
+}
+
+export const addPost = (): AddPostACType => ({type: "ADD-POST"})
+
+export const setProfile = (profile: ProfileType): SetProfileType => ({type: "SET_PROFILE", profile})
+
+
+export const getUserProfile  = (userId: string) => {
+    return (dispatch: any) => {
+        profileAPI.getUserData(userId)
+            .then((res) => {
+                dispatch(setProfile(res.data))
+            })
     }
 }

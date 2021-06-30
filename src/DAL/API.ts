@@ -1,4 +1,16 @@
 import  axios from "axios";
+import {UsersType} from "../redux/users-reducer";
+
+type AxiosGetUsersType = {
+    error: string
+    items: Array<UsersType>
+    totalCount: number
+}
+
+export type axiosFollowType = {
+    resultCode: number
+    messages: []
+}
 
 export const instance = axios.create({
     withCredentials: true,
@@ -11,10 +23,17 @@ export const instance = axios.create({
 export const usersAPI = {
 
     getUsers(pageActive: number, userPageCount: number) {
-        return instance.get(`users?page=${pageActive}&count=${userPageCount}`)
+        return instance.get<AxiosGetUsersType>(`users?page=${pageActive}&count=${userPageCount}`)
     },
     onPageChanged(pageNumber: number, userPageCount:number) {
         return instance.get(`users?page=${pageNumber}&count=${userPageCount}`)
+    },
+    follow(userID: number) {
+        debugger
+        return instance.post<axiosFollowType>(`follow/${userID}`)
+    },
+    unFollow(userID: number) {
+        return instance.delete(`follow/${userID}`)
     }
 }
 

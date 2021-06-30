@@ -1,15 +1,12 @@
-import {addPost, addTextMessage} from "../../redux/dialogs-reducer";
-import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
+import {News} from "./News";
 
 
 let mapSateToProps = (state: AppStateType) => {
     return {
         isLogin: state.auth.isLogin,
-        dialog: state.dialogsPage.dialog,
-        message: state.dialogsPage.message,
-        textAddMessage: state.dialogsPage.textAddMessage,
+
     }
 }
 
@@ -22,5 +19,5 @@ let mapSateToProps = (state: AppStateType) => {
 // }
 
 
-export const DialogsContainer = connect(mapSateToProps, {
-    addPost,addTextMessage})(Dialogs);
+export const NewsContainer = connect(mapSateToProps, {
+    })(News);

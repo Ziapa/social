@@ -1,3 +1,5 @@
+import {usersAPI} from "../DAL/API";
+
 export type ActionType =
     | ReturnType<typeof follow>
     | ReturnType<typeof unFollow>
@@ -5,7 +7,6 @@ export type ActionType =
     | ReturnType<typeof setUserCount>
     | ReturnType<typeof setPageActive>
     | ReturnType<typeof setFetching>
-    | ReturnType<typeof setFetchingFalse>
     | ReturnType<typeof disable>
 
 export type UsersType = {
@@ -14,6 +15,7 @@ export type UsersType = {
     status: string
     photos: PhotoType
     followed: boolean
+    uniqueUrlName: string
 }
 
 
@@ -39,13 +41,9 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
         case "SET_FETCHING_TRUE":
             return {
                 ...state,
-                isFetching: true
+                isFetching: action.isFetching
             }
-        case "SET_FETCHING_FALSE":
-            return {
-                ...state,
-                isFetching: false
-            }
+
         case "SET_USERS":
             return {
                 ...state,
@@ -63,6 +61,7 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
             }
 
         case "FOLLOW":
+            debugger
             return {
                 ...state,
                 users: state.users.map(u => {
@@ -74,7 +73,9 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
             }
 
         case "UNFOLLOW":
+            debugger
             return {
+
                 ...state,
                 users: state.users.map(u => {
                     if (u.id === action.usersID) {
@@ -88,8 +89,8 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
             return {
                 ...state,
                 followingInProgress: action.isFetching
-                ? [...state.followingInProgress, action.usersID]
-                : state.followingInProgress.filter(id => id !== action.usersID)
+                    ? [...state.followingInProgress, action.usersID]
+                    : state.followingInProgress.filter(id => id !== action.usersID)
 
             }
         default:
@@ -98,13 +99,53 @@ export const usersReducer = (state: InitialStateUsersType = initialState, action
 }
 
 
-export const follow = (usersID: number) => ({type: "FOLLOW", usersID: usersID}) as const
-export const unFollow = (usersID: number) => ({type: "UNFOLLOW", usersID: usersID}) as const
+export const follow = (usersID: number) => ({type: "FOLLOW", usersID}) as const
+export const unFollow = (usersID: number) => ({type: "UNFOLLOW", usersID}) as const
 
-export const setUsers = (users: Array<UsersType>) => ({type: "SET_USERS", users: users}) as const
-export const setFetching = () => ({type: "SET_FETCHING_TRUE"}) as const
-export const setFetchingFalse = () => ({type: "SET_FETCHING_FALSE"}) as const
+export const setUsers = (users: Array<UsersType>) => ({type: "SET_USERS", users}) as const
+export const setFetching = (isFetching: boolean) => ({type: "SET_FETCHING_TRUE", isFetching}) as const
 export const setPageActive = (page: number) => ({type: "SET_PAGE", page}) as const
 export const setUserCount = (usersCount: number) => ({type: "SET_USER_COUNT", usersCount}) as const
 
 export const disable = (isFetching: boolean, usersID: number) => ({type: "DISABLE", isFetching, usersID}) as const
+
+export const getUsers = (pageActive: number, userPageCount: number) => {
+    return (dispatch: any) => {
+        usersAPI.getUsers(pageActive, userPageCount)
+            .then((res) => {
+                dispatch(setFetching(true))
+                dispatch(setUsers(res.data.items))
+                dispatch(setUserCount(res.data.totalCount))
+                dispatch(setPageActive(pageActive))
+            })
+    }
+}
+
+export const following = (userID: number) => {
+    return (dispatch: any) => {
+        dispatch(disable(true, userID))
+        usersAPI.follow(userID)
+            .then((res) => {
+                if (res.data.resultCode === 0) {
+                    dispatch(disable(false, userID))
+                    dispatch(follow(userID))
+                }
+            })
+    }
+}
+
+export const unFollowing = (userID: number) => {
+    return (dispatch: any) => {
+        dispatch(disable(true, userID))
+
+        usersAPI.unFollow(userID)
+            .then((res) => {
+                if (res.data.resultCode === 0) {
+                    dispatch(disable(false, userID))
+                    dispatch(unFollow(userID))
+                }
+            })
+    }
+}
+
+
