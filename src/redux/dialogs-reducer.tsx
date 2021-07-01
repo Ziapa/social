@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 
-export type ActionType =
+export type DialogsActionType =
     | ReturnType<typeof addPost>
     | ReturnType<typeof addTextMessage>
 
@@ -38,7 +38,7 @@ export type MessagesType = {
 }
 
 
-export const dialogsReducer = (state: InitialStateDialogsType = initialState, action: ActionType): InitialStateDialogsType => {
+export const dialogsReducer = (state: InitialStateDialogsType = initialState, action: DialogsActionType): InitialStateDialogsType => {
 
 
     switch (action.type) {

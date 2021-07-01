@@ -3,10 +3,8 @@ import s from "./Dialogs.module.scss";
 import {DialogItem} from "./Dialog/DialogItem";
 import {MessageItem} from "./Message/MessageItem";
 import {DialogsType, MessagesType} from "../../redux/dialogs-reducer";
-import {Redirect} from "react-router-dom";
 
 type DialogsPropsType = {
-    isLogin: boolean
     dialog: Array<DialogsType>
     message: Array<MessagesType>
     textAddMessage: string
@@ -30,9 +28,9 @@ export const Dialogs = (props: DialogsPropsType) => {
 
     let dialogElement = props.dialog.map(dialog => <DialogItem name={dialog.name} id={dialog.id}/>)
     let messageElement = props.message.map(message => <MessageItem message={message.message}/>)
-    debugger
 
-    if (!props.isLogin) return <Redirect to="/login"/>
+
+
 
     return (<div>
 

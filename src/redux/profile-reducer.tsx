@@ -1,7 +1,11 @@
 import {PostType} from "./types"
 import {profileAPI} from "../DAL/API";
+import {ThunkDispatch} from "redux-thunk";
+import {AppStateType} from "./redux-store";
 
-export type ActionType = TextAddPostACType | AddPostACType | SetProfileType
+export type ProfileActionType = TextAddPostACType | AddPostACType | SetProfileType | TextStatusACType
+
+
 
 export type AddPostACType = {
     type: "ADD-POST"
@@ -16,6 +20,16 @@ type mapStatePropsType = {
     profile: ProfileType
     isLogin: boolean
 }
+export type TextAddPostACType = {
+    type: "TEXT-ADD-POST"
+    newText: string
+}
+
+export type TextStatusACType = {
+    type: "TEXT-STATUS"
+    newText: string
+}
+
 type mapDispatchPropsType = {
 
     getUserProfile: (userID: string) => void
@@ -24,6 +38,7 @@ type mapDispatchPropsType = {
 export type reducerPropsType = mapStatePropsType & mapDispatchPropsType
 
 export type InitialStateType = {
+    TextStatus: string
     changeTextNewPost: string
     posts: Array<PostType>
     profile: ProfileType
@@ -54,6 +69,7 @@ export type ProfileType = {
 
 
 let initialState = {
+    TextStatus: "",
     changeTextNewPost: "",
     posts: [
         {
@@ -67,14 +83,11 @@ let initialState = {
     profile: {} as ProfileType,
     isFetching: false
 }
-export type TextAddPostACType = {
-    type: "TEXT-ADD-POST"
-    newText: string
-}
 
 
 
-export const profileReducer = (state: InitialStateType = initialState, action: ActionType): InitialStateType => {
+
+export const profileReducer = (state: InitialStateType = initialState, action: ProfileActionType): InitialStateType => {
     switch (action.type) {
         case "ADD-POST":
             return {
@@ -93,6 +106,11 @@ export const profileReducer = (state: InitialStateType = initialState, action: A
                 ...state,
                 changeTextNewPost: action.newText
             }
+        case "TEXT-STATUS":
+            return {
+                ...state,
+                TextStatus: action.newText
+            }
         case "SET_PROFILE":
             return {
 
@@ -110,6 +128,12 @@ export const updateNewPostText = (newText: string): TextAddPostACType => {
         newText: newText
     }
 }
+export const updateTextStatus = (newText: string): TextStatusACType => {
+    return {
+        type: "TEXT-STATUS",
+        newText
+    }
+}
 
 export const addPost = (): AddPostACType => ({type: "ADD-POST"})
 
@@ -117,7 +141,7 @@ export const setProfile = (profile: ProfileType): SetProfileType => ({type: "SET
 
 
 export const getUserProfile  = (userId: string) => {
-    return (dispatch: any) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ProfileActionType>) => {
         profileAPI.getUserData(userId)
             .then((res) => {
                 dispatch(setProfile(res.data))

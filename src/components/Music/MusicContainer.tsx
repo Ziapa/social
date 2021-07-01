@@ -1,13 +1,13 @@
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {Music} from "./Music";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
+import React from "react";
 
 
 let mapSateToProps = (state: AppStateType) => {
-    return {
-        isLogin: state.auth.isLogin,
-
-    }
+    return {}
 }
 
 // let mapDispatchToProps = (dispatch:(action: ActionType) => void) => {
@@ -19,5 +19,9 @@ let mapSateToProps = (state: AppStateType) => {
 // }
 
 
-export const MusicContainer = connect(mapSateToProps, {
-    })(Music);
+export const MusicContainer = compose<React.ComponentType>(
+    withAuthRedirect,
+    connect(mapSateToProps, {})
+)(Music)
+
+

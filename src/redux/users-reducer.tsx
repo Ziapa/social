@@ -1,6 +1,8 @@
 import {usersAPI} from "../DAL/API";
+import {ThunkDispatch} from "redux-thunk";
+import {AppStateType} from "./redux-store";
 
-export type ActionType =
+export type UsersActionType =
     | ReturnType<typeof follow>
     | ReturnType<typeof unFollow>
     | ReturnType<typeof setUsers>
@@ -36,7 +38,7 @@ let initialState = {
 export type InitialStateUsersType = typeof initialState
 
 
-export const usersReducer = (state: InitialStateUsersType = initialState, action: ActionType): InitialStateUsersType => {
+export const usersReducer = (state: InitialStateUsersType = initialState, action: UsersActionType): InitialStateUsersType => {
     switch (action.type) {
         case "SET_FETCHING_TRUE":
             return {
@@ -109,8 +111,10 @@ export const setUserCount = (usersCount: number) => ({type: "SET_USER_COUNT", us
 
 export const disable = (isFetching: boolean, usersID: number) => ({type: "DISABLE", isFetching, usersID}) as const
 
+
+
 export const getUsers = (pageActive: number, userPageCount: number) => {
-    return (dispatch: any) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, UsersActionType>) => {
         usersAPI.getUsers(pageActive, userPageCount)
             .then((res) => {
                 dispatch(setFetching(true))

@@ -1,6 +1,8 @@
 import {authAPI} from "../DAL/API";
+import {ThunkDispatch} from "redux-thunk";
+import {AppStateType} from "./redux-store";
 
-export type ActionType =
+export type AuthActionType =
     | setDataAuthType
 
 type setDataAuthType = {
@@ -42,7 +44,7 @@ const initialState: InitialStateAuthType = {
 }
 
 
-export const authReducer = (state: InitialStateAuthType = initialState, action: ActionType): InitialStateAuthType => {
+export const authReducer = (state: InitialStateAuthType = initialState, action: AuthActionType): InitialStateAuthType => {
     switch (action.type) {
 
         case "SET_DATA_AUTH" :
@@ -60,7 +62,7 @@ export const authReducer = (state: InitialStateAuthType = initialState, action: 
 
 export const setDataAuth = (data: dataType): setDataAuthType => ({type: "SET_DATA_AUTH", data}) as const
 
-export const setUserAuthData = () => (dispatch: any) => {
+export const setUserAuthData = () => (dispatch: ThunkDispatch<AppStateType, unknown, AuthActionType>) => {
     authAPI.authMe()
         .then((res) => {
             if (res.data.resultCode === 0)

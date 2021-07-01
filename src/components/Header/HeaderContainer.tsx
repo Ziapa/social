@@ -3,21 +3,20 @@ import {Header} from "./Header";
 import {authReducerPropsType, setUserAuthData} from "../../redux/auth-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
+import {compose} from "redux";
 
 type authMeType = {
-    data: {id: number, login: string, email: string}
+    data: { id: number, login: string, email: string }
     fieldsErrors: Array<string>
     messages: Array<string>
     resultCode: number
 }
 
 
-
-
 class HeaderContainer extends React.Component<authReducerPropsType> {
 
     componentDidMount() {
-       this.props.setUserAuthData()
+        this.props.setUserAuthData()
     }
 
     render() {
@@ -27,8 +26,12 @@ class HeaderContainer extends React.Component<authReducerPropsType> {
 }
 
 const mapSateToProps = (state: AppStateType) => ({
- isLogin: state.auth.isLogin
+    isLogin: state.auth.isLogin
 })
 
-export default connect(mapSateToProps,{setUserAuthData})(HeaderContainer)
+
+export default compose<React.ComponentType>(
+    connect(mapSateToProps, {setUserAuthData})
+)(HeaderContainer)
+
 

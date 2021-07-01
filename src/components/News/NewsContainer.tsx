@@ -1,12 +1,13 @@
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {News} from "./News";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
+import React from "react";
 
 
 let mapSateToProps = (state: AppStateType) => {
     return {
-        isLogin: state.auth.isLogin,
-
     }
 }
 
@@ -19,5 +20,7 @@ let mapSateToProps = (state: AppStateType) => {
 // }
 
 
-export const NewsContainer = connect(mapSateToProps, {
-    })(News);
+export const NewsContainer = compose<React.ComponentType>(
+    withAuthRedirect,
+    connect(mapSateToProps, {    })
+    )(News)

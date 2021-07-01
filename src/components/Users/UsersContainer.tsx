@@ -10,7 +10,8 @@ import {
 } from "../../redux/users-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import React from "react";
-import {Redirect} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 export class UserContainer extends React.Component<any> {
@@ -27,7 +28,6 @@ export class UserContainer extends React.Component<any> {
 
     render() {
 
-        if (!this.props.isLogin) return <Redirect to="/login"/>
 
         return (this.props.isFetching ?
             <Users
@@ -49,7 +49,6 @@ export class UserContainer extends React.Component<any> {
 
 let mapStateToProps = (state: AppStateType) => {
     return {
-        isLogin: state.auth.isLogin,
         users: state.usersPage.users,
         userCount: state.usersPage.userCount,
         userPageCount: state.usersPage.userPageCount,
@@ -85,12 +84,15 @@ let mapStateToProps = (state: AppStateType) => {
 //     }
 // }
 
-export const UsersContainer = connect(mapStateToProps,
-    {
-        follow,
-        unFollow,
-        disable,
-        getUsers,
-        following,
-        unFollowing
-    })(UserContainer)
+export const UsersContainer = compose<React.ComponentType>(
+    withAuthRedirect,
+    connect(mapStateToProps,
+        {
+            follow,
+            unFollow,
+            disable,
+            getUsers,
+            following,
+            unFollowing
+        })
+    )(UserContainer)

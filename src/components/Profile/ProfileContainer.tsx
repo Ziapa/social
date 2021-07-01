@@ -1,9 +1,11 @@
 import React from "react";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
-import {getUserProfile, reducerPropsType} from "../../redux/profile-reducer";
+import {getUserProfile, reducerPropsType, updateTextStatus} from "../../redux/profile-reducer";
 import {AppStateType} from "../../redux/redux-store";
-import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 type PropsType = reducerPropsType & RouteComponentProps<{ userId: string }>
 
@@ -26,9 +28,10 @@ export class ProfileContainer extends React.Component<PropsType> {
 
 
     render() {
-        if (!this.props.isLogin) return <Redirect to="/login"/>
+
 
         return <Profile
+            updateTextStatus={updateTextStatus}
             profile={this.props.profile}/>
     }
 }
@@ -36,10 +39,15 @@ export class ProfileContainer extends React.Component<PropsType> {
 const mapSateToProps = (state: AppStateType) => {
     return {
         profile: state.profilePage.profile,
-        isLogin: state.auth.isLogin
+        textStatus: state.profilePage.TextStatus
     }
 }
 
+export default compose<React.ComponentType>(
 
-export default withRouter(connect(mapSateToProps, {getUserProfile})(ProfileContainer))
+    connect(mapSateToProps, {getUserProfile, updateTextStatus}),
+    withRouter,
+    withAuthRedirect
+)(ProfileContainer)
+
 
