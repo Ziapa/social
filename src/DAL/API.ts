@@ -12,6 +12,10 @@ export type axiosFollowType = {
     messages: []
 }
 
+export type axiosGetStatus = {
+    Media: string
+}
+
 export const instance = axios.create({
     withCredentials: true,
     baseURL: "https://social-network.samuraijs.com/api/1.0/",
@@ -46,5 +50,11 @@ export const authAPI = {
 export const profileAPI = {
     getUserData(userId: string) {
         return instance.get(`profile/${userId}`)
-    }
+    },
+    getStatusProfile<axiosGetStatus>(userId: number) {
+        return instance.get(`/profile/status/${userId}`)
+            }
 }
+
+
+

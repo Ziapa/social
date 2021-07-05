@@ -32,6 +32,7 @@ export class ProfileContainer extends React.Component<PropsType> {
 
         return <Profile
             updateTextStatus={updateTextStatus}
+            textStatus={this.props.textStatus}
             profile={this.props.profile}/>
     }
 }
@@ -39,7 +40,7 @@ export class ProfileContainer extends React.Component<PropsType> {
 const mapSateToProps = (state: AppStateType) => {
     return {
         profile: state.profilePage.profile,
-        textStatus: state.profilePage.TextStatus
+        textStatus: state.profilePage.textStatus,
     }
 }
 

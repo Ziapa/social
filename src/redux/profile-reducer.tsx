@@ -19,6 +19,7 @@ export type SetProfileType = {
 type mapStatePropsType = {
     profile: ProfileType
     isLogin: boolean
+    textStatus: string
 }
 export type TextAddPostACType = {
     type: "TEXT-ADD-POST"
@@ -26,19 +27,18 @@ export type TextAddPostACType = {
 }
 
 export type TextStatusACType = {
-    type: "TEXT-STATUS"
+    type: "SET-TEXT-STATUS"
     newText: string
 }
 
 type mapDispatchPropsType = {
-
     getUserProfile: (userID: string) => void
 }
 
 export type reducerPropsType = mapStatePropsType & mapDispatchPropsType
 
 export type InitialStateType = {
-    TextStatus: string
+    textStatus: string
     changeTextNewPost: string
     posts: Array<PostType>
     profile: ProfileType
@@ -69,7 +69,7 @@ export type ProfileType = {
 
 
 let initialState = {
-    TextStatus: "",
+    textStatus: "Test",
     changeTextNewPost: "",
     posts: [
         {
@@ -106,10 +106,12 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
                 ...state,
                 changeTextNewPost: action.newText
             }
-        case "TEXT-STATUS":
+        case "SET-TEXT-STATUS":
+            debugger
             return {
+
                 ...state,
-                TextStatus: action.newText
+                textStatus: action.newText
             }
         case "SET_PROFILE":
             return {
@@ -122,18 +124,10 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
     }
 }
 
-export const updateNewPostText = (newText: string): TextAddPostACType => {
-    return {
-        type: "TEXT-ADD-POST",
-        newText: newText
-    }
-}
-export const updateTextStatus = (newText: string): TextStatusACType => {
-    return {
-        type: "TEXT-STATUS",
-        newText
-    }
-}
+export const updateNewPostText = (newText: string): TextAddPostACType =>( {type: "TEXT-ADD-POST",newText: newText})
+
+export const updateTextStatus = (newText: string): TextStatusACType =>  ({type: "SET-TEXT-STATUS", newText: newText})
+
 
 export const addPost = (): AddPostACType => ({type: "ADD-POST"})
 

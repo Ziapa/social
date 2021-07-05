@@ -1,11 +1,13 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import s from "./Profile.module.scss";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostContainer";
-import {ProfileType, updateTextStatus} from "../../redux/profile-reducer";
+import {ProfileType} from "../../redux/profile-reducer";
+import {profileAPI} from "../../DAL/API";
 
-type ProfilePropsType= {
+type ProfilePropsType = {
     profile: ProfileType
+    textStatus: string
     updateTextStatus: (newText: string) => void
 }
 
@@ -16,18 +18,26 @@ export const Profile = (props: ProfilePropsType) => {
     const [toggle, setToggle] = useState<boolean>(false)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        updateTextStatus(e.currentTarget.value)
+        props.updateTextStatus(e.currentTarget.value)
     }
+
+    useEffect(() => {
+        profileAPI.getStatusProfile(props.profile.userId)
+            .then((res) => {
+
+            })
+    },[props.profile.userId])
 
     return (
         <div className={s.Profile}>
             <div> {`Status: `}
 
                 {toggle ?
-                    <input type="text" value={"() => {}"} autoFocus onBlur={() => setToggle(false)} onChange={onChangeHandler}/>
+                    <input type="text" value={props.textStatus} autoFocus onBlur={() => setToggle(false)}
+                           onChange={onChangeHandler}/>
                     :
                     <span onDoubleClick={() => setToggle(true)}>
-
+                    {props.textStatus}
                 </span>
                 }
 
