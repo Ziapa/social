@@ -3,8 +3,7 @@ import {profileAPI} from "../DAL/API";
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./redux-store";
 
-export type ProfileActionType = TextAddPostACType | AddPostACType | SetProfileType | TextStatusACType
-
+export type ProfileActionType = TextAddPostACType | AddPostACType | SetProfileType | SetStatusACType
 
 
 export type AddPostACType = {
@@ -26,13 +25,15 @@ export type TextAddPostACType = {
     newText: string
 }
 
-export type TextStatusACType = {
-    type: "SET-TEXT-STATUS"
-    newText: string
+export type SetStatusACType = {
+    type: "SET-PROFILE-STATUS"
+    text: string
 }
 
 type mapDispatchPropsType = {
+    getUserStatus: (userId: string) => void
     getUserProfile: (userID: string) => void
+    updateStatus: (text: string) => void
 }
 
 export type reducerPropsType = mapStatePropsType & mapDispatchPropsType
@@ -62,8 +63,8 @@ export type ProfileType = {
         mainLink: string | null
     }
     photos: {
-        small: string| null
-        large: string| null
+        small: string | null
+        large: string | null
     }
 }
 
@@ -85,8 +86,6 @@ let initialState = {
 }
 
 
-
-
 export const profileReducer = (state: InitialStateType = initialState, action: ProfileActionType): InitialStateType => {
     switch (action.type) {
         case "ADD-POST":
@@ -106,39 +105,55 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
                 ...state,
                 changeTextNewPost: action.newText
             }
-        case "SET-TEXT-STATUS":
-            debugger
-            return {
-
-                ...state,
-                textStatus: action.newText
-            }
         case "SET_PROFILE":
             return {
 
                 ...state,
                 profile: action.profile
             }
+        case "SET-PROFILE-STATUS":
+            return {
+                ...state,
+                textStatus: action.text
+            }
         default:
             return state
     }
 }
 
-export const updateNewPostText = (newText: string): TextAddPostACType =>( {type: "TEXT-ADD-POST",newText: newText})
-
-export const updateTextStatus = (newText: string): TextStatusACType =>  ({type: "SET-TEXT-STATUS", newText: newText})
+export const updateNewPostText = (newText: string): TextAddPostACType => ({type: "TEXT-ADD-POST", newText: newText})
 
 
 export const addPost = (): AddPostACType => ({type: "ADD-POST"})
 
 export const setProfile = (profile: ProfileType): SetProfileType => ({type: "SET_PROFILE", profile})
+export const setProfileStatus = (text: string): SetStatusACType => ({type: "SET-PROFILE-STATUS", text})
 
 
-export const getUserProfile  = (userId: string) => {
+export const getUserProfile = (userId: string) => {
     return (dispatch: ThunkDispatch<AppStateType, unknown, ProfileActionType>) => {
         profileAPI.getUserData(userId)
             .then((res) => {
                 dispatch(setProfile(res.data))
+            })
+    }
+}
+
+export const getUserStatus = (userId: number) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ProfileActionType>) => {
+        profileAPI.getStatusProfile(userId)
+            .then((res) => {
+                debugger
+                dispatch(setProfileStatus(res.data))
+            })
+    }
+}
+
+export const updateStatus = (text: string) => {
+    return (dispatch: ThunkDispatch<AppStateType, unknown, ProfileActionType>) => {
+        profileAPI.updateStatus(text)
+            .then((res) => {
+                dispatch(setProfileStatus(text))
             })
     }
 }

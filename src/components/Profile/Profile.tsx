@@ -1,39 +1,37 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import s from "./Profile.module.scss";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostContainer";
 import {ProfileType} from "../../redux/profile-reducer";
-import {profileAPI} from "../../DAL/API";
 
 type ProfilePropsType = {
     profile: ProfileType
     textStatus: string
-    updateTextStatus: (newText: string) => void
+    updateStatus: (newText: string) => void
 }
 
 export const Profile = (props: ProfilePropsType) => {
+
+const [textStatus, setTextStatus] = useState(props.textStatus)
 
     let photos = props.profile.photos?.large
 
     const [toggle, setToggle] = useState<boolean>(false)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.updateTextStatus(e.currentTarget.value)
+        setTextStatus(e.currentTarget.value)
     }
-
-    useEffect(() => {
-        profileAPI.getStatusProfile(props.profile.userId)
-            .then((res) => {
-
-            })
-    },[props.profile.userId])
+    const onChangeStatusHandler = () => {
+        setToggle(false)
+        props.updateStatus(textStatus)
+    }
 
     return (
         <div className={s.Profile}>
             <div> {`Status: `}
 
                 {toggle ?
-                    <input type="text" value={props.textStatus} autoFocus onBlur={() => setToggle(false)}
+                    <input type="text" value={textStatus} autoFocus onBlur={onChangeStatusHandler}
                            onChange={onChangeHandler}/>
                     :
                     <span onDoubleClick={() => setToggle(true)}>

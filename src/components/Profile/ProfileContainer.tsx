@@ -1,7 +1,7 @@
 import React from "react";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
-import {getUserProfile, reducerPropsType, updateTextStatus} from "../../redux/profile-reducer";
+import {getUserProfile, getUserStatus, reducerPropsType, updateStatus} from "../../redux/profile-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
@@ -12,10 +12,16 @@ type PropsType = reducerPropsType & RouteComponentProps<{ userId: string }>
 export class ProfileContainer extends React.Component<PropsType> {
 
 
-    componentDidMount() {
 
+
+    componentDidMount() {
         let userId = this.props.match.params.userId
+        if (!userId) {
+            userId = "12411"
+        }
+
         this.props.getUserProfile(userId)
+        this.props.getUserStatus(userId)
     }
 
     componentDidUpdate() {
@@ -24,6 +30,7 @@ export class ProfileContainer extends React.Component<PropsType> {
             userId = "12411"
         }
         this.props.getUserProfile(userId)
+        this.props.getUserStatus(userId)
     }
 
 
@@ -31,7 +38,7 @@ export class ProfileContainer extends React.Component<PropsType> {
 
 
         return <Profile
-            updateTextStatus={updateTextStatus}
+            updateStatus={this.props.updateStatus}
             textStatus={this.props.textStatus}
             profile={this.props.profile}/>
     }
@@ -46,7 +53,7 @@ const mapSateToProps = (state: AppStateType) => {
 
 export default compose<React.ComponentType>(
 
-    connect(mapSateToProps, {getUserProfile, updateTextStatus}),
+    connect(mapSateToProps, {updateStatus, getUserStatus ,getUserProfile}),
     withRouter,
     withAuthRedirect
 )(ProfileContainer)

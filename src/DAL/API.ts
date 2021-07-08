@@ -1,4 +1,4 @@
-import  axios from "axios";
+import axios from "axios";
 import {UsersType} from "../redux/users-reducer";
 
 type AxiosGetUsersType = {
@@ -29,7 +29,7 @@ export const usersAPI = {
     getUsers(pageActive: number, userPageCount: number) {
         return instance.get<AxiosGetUsersType>(`users?page=${pageActive}&count=${userPageCount}`)
     },
-    onPageChanged(pageNumber: number, userPageCount:number) {
+    onPageChanged(pageNumber: number, userPageCount: number) {
         return instance.get(`users?page=${pageNumber}&count=${userPageCount}`)
     },
     follow(userID: number) {
@@ -51,9 +51,18 @@ export const profileAPI = {
     getUserData(userId: string) {
         return instance.get(`profile/${userId}`)
     },
-    getStatusProfile<axiosGetStatus>(userId: number) {
+    getStatusProfile(userId: number) {
         return instance.get(`/profile/status/${userId}`)
+    },
+    updateStatus(textStatus: string) {
+        return instance.put(`/profile/status/`,
+            {
+
+                status: textStatus
+
             }
+        )
+    }
 }
 
 
