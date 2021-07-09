@@ -70,7 +70,7 @@ export type ProfileType = {
 
 
 let initialState = {
-    textStatus: "Test",
+    textStatus: "",
     changeTextNewPost: "",
     posts: [
         {

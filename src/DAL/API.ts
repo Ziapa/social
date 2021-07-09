@@ -12,6 +12,13 @@ export type axiosFollowType = {
     messages: []
 }
 
+export type axiosLoginType= {
+    data: {userId: number}
+    fieldsErrors: Array<string>
+    messages: Array<string>
+    resultCode: number
+}
+
 export type axiosGetStatus = {
     Media: string
 }
@@ -44,7 +51,17 @@ export const usersAPI = {
 export const authAPI = {
     authMe() {
         return instance.get(`auth/me`)
+    },
+    logOut() {
+        return instance.delete(`auth/login`)
+    },
+    login(email: string, password:string, rememberMe: boolean) {
+        return instance.post<axiosLoginType>(`auth/login`,
+            {
+                email, password, rememberMe
+            })
     }
+
 }
 
 export const profileAPI = {

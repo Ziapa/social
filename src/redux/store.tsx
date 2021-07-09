@@ -1,5 +1,3 @@
-import {profileReducer} from "./profile-reducer"
-import {dialogsReducer} from "./dialogs-reducer";
 import {DialogsPageType} from "./types";
 
 let rerenderEntireTree = () => {

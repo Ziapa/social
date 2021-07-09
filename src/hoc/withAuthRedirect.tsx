@@ -4,16 +4,19 @@ import {getUserProfile} from "../redux/profile-reducer";
 import {AppStateType} from "../redux/redux-store";
 import {Redirect} from "react-router-dom";
 
+
+type MapStateType = {
+    isLogin: boolean
+}
+
 export function withAuthRedirect<T>   (Component: ComponentType<T>)  {
+    debugger
     const RedirectComponent = (props: MapStateType) => {
         let {isLogin, ...resProps} = props
         if (!props.isLogin) return <Redirect to="/login"/>
         return <Component {...resProps as T} />
     }
 
-    type MapStateType = {
-        isLogin: boolean
-    }
 
     const mapSateToProps = (state: AppStateType): MapStateType => {
         return {

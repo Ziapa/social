@@ -29,6 +29,7 @@ export class ProfileContainer extends React.Component<PropsType> {
         if (!userId) {
             userId = "12411"
         }
+
         this.props.getUserProfile(userId)
         this.props.getUserStatus(userId)
     }
@@ -52,8 +53,7 @@ const mapSateToProps = (state: AppStateType) => {
 }
 
 export default compose<React.ComponentType>(
-
-    connect(mapSateToProps, {updateStatus, getUserStatus ,getUserProfile}),
+    connect(mapSateToProps, {updateStatus, getUserStatus, getUserProfile}),
     withRouter,
     withAuthRedirect
 )(ProfileContainer)

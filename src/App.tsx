@@ -6,7 +6,7 @@ import {Setting} from "./components/Setting/Setting";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 import {UsersContainer} from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
-import {Login} from "./components/login/login";
+import {Login} from "./components/LoginFormik/login";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {NewsContainer} from "./components/News/NewsContainer";
 import {MusicContainer} from "./components/Music/MusicContainer";
