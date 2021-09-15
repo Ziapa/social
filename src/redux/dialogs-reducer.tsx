@@ -5,11 +5,7 @@ export type DialogsActionType =
     | ReturnType<typeof addTextMessage>
 
 
-// export type InitialStateDialogsType = {
-//     textAddMessage: string,
-//     dialog: Array<DialogsType>
-//     message: Array<MessagesType>
-// }
+
 export type InitialStateDialogsType = typeof initialState
 
 let initialState = {

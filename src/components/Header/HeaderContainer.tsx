@@ -5,14 +5,6 @@ import {AppStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import {compose} from "redux";
 
-type authMeType = {
-    data: { id: number, login: string, email: string }
-    fieldsErrors: Array<string>
-    messages: Array<string>
-    resultCode: number
-}
-
-
 class HeaderContainer extends React.Component<authReducerPropsType> {
 
     componentDidMount() {
